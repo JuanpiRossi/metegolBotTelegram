@@ -13,7 +13,8 @@ from metegolCommands import add_player,\
                             admin_player_info,\
                             admin_remove_game,\
                             _help_admin,\
-                            set_elo
+                            set_elo,\
+                            alive
 
 updater = Updater(token=botConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -26,6 +27,7 @@ ranking_handler = CommandHandler('ranking', get_elo)
 player_info_handler = CommandHandler('estadisticasjugador', player_statics, pass_args=True)
 player_games_handler = CommandHandler('partidosjugador', player_info, pass_args=True)
 submit_handler = CommandHandler('submit', submit_result_goals, pass_args=True)
+alive_handler = CommandHandler('alive', alive)
 help_handler = CommandHandler('help', _help)
 
 #Admin handlers
@@ -43,6 +45,7 @@ dispatcher.add_handler(ranking_handler)
 dispatcher.add_handler(player_info_handler)
 dispatcher.add_handler(player_games_handler)
 dispatcher.add_handler(submit_handler)
+dispatcher.add_handler(alive_handler)
 dispatcher.add_handler(help_handler)
 
 #Admin Dispatchers
