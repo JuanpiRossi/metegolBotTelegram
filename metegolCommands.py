@@ -219,8 +219,8 @@ def submit_result_goals(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
             return
         player_a_elo,player_b_elo = _calculate_elo(player_a["__$elo"], player_b["__$elo"], int(args[1]), int(args[3]))
-        player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(player_a_elo-player_a["__$elo"]))
-        player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(player_b_elo-player_b["__$elo"]))
+        player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(round(player_a_elo-player_a["__$elo"],2)))
+        player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(round(player_b_elo-player_b["__$elo"],2)))
         player_a["__$elo"] = player_a_elo
         player_b["__$elo"] = player_b_elo
         game_id = str(uuid.uuid4())
@@ -233,8 +233,8 @@ def submit_result_goals(bot, update, args):
         update_doc("jugadores",{"__$name":args[0]},player_a)
         update_doc("jugadores",{"__$name":args[2]},player_b)
         bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
-                                                            str(args[0])+ " (" + player_a_dif +"): "+str(player_a_elo)+"\n"+
-                                                            str(args[2])+ " (" + player_b_dif +"): "+str(player_b_elo)+"\n"+
+                                                            str(args[0])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
+                                                            str(args[2])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
                                                             str(game_id))
 
     except Exception as ex:
@@ -252,7 +252,7 @@ def get_elo(bot, update):
         players = find("jugadores",{},sort="-__$elo")
         html = "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 300px;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 250px;}.pointColumn {width: 50px;}</style></head><body><h2>Ranking</h2><table><tr><td class='nameColumn header'>Nombre</td><td class='pointColumn header'>Puntos:</td></tr>"
         for player in players:
-            html = html+"<tr><td class='nameColumn'>{NOMBRE}</td><td class='pointColumn'>{PUNTOS}</td></tr>".format(NOMBRE=player["__$name"],PUNTOS=player["__$elo"])
+            html = html+"<tr><td class='nameColumn'>{NOMBRE}</td><td class='pointColumn'>{PUNTOS}</td></tr>".format(NOMBRE=player["__$name"],PUNTOS=str(int(player["__$elo"])))
         html = html+"</table></body></html>"
         file_name = str(uuid.uuid4())+".png"
         path_wkthmltopdf = WKHTMLTOIMAGE_PATH
