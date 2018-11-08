@@ -27,7 +27,7 @@ def add_player(bot, update, args):
             return
         player = find_one("jugadores",{"__$name":args[0]})
         if not player:
-            mongo_response = insert_one("jugadores",{"__$name":args[0],"__$elo":1200,"__$history":[]})
+            mongo_response = insert_one("jugadores",{"__$name":args[0],"__$elo":float(1800),"__$history":[]})
         else:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador ya existe")
             return
