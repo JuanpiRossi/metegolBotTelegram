@@ -331,6 +331,9 @@ def set_elo(bot,update,args):
         logger.exception(ex)
         return
 
+def alive(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="Estoy vivito en el grupo: " + str(update.message.chat.id))
+
 def _help(bot, update):
     try:
         logger = _get_logger()
