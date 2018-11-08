@@ -1,4 +1,4 @@
 BOT_TOKEN = "758840577:AAH1rWnutujxlAUyJjxKVXUcgMT8pZutz1U"
-WKHTMLTOIMAGE_PATH=r'D:\wkhtmltopdf\bin\wkhtmltoimage.exe'
+WKHTMLTOIMAGE_PATH='/usr/local/bin/wkhtmltoimage'
 GROUPS=[-245994808,-123890638,528527409]
 ADMIN=[528527409]
