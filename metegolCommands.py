@@ -219,8 +219,8 @@ def submit_result_goals(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
             return
         player_a_elo,player_b_elo = _calculate_elo(player_a["__$elo"], player_b["__$elo"], int(args[1]), int(args[3]))
-        player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(round(player_a_elo-player_a["__$elo"],2)))
-        player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(round(player_b_elo-player_b["__$elo"],2)))
+        player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(player_a_elo-player_a["__$elo"]))
+        player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(player_b_elo-player_b["__$elo"]))
         player_a["__$elo"] = player_a_elo
         player_b["__$elo"] = player_b_elo
         game_id = str(uuid.uuid4())
