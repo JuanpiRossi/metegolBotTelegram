@@ -33,11 +33,11 @@ def _get_elo_constants(elo_player,constant_array=[]):
     return 1
 
 def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
-    player_a_transformed = 10**(elo_player_a/400)
-    player_b_transformed = 10**(elo_player_a/400)
+    player_a_transformed = float(10**(float(elo_player_a)/400))
+    player_b_transformed = float(10**(float(elo_player_b)/400))
 
-    player_a_expect_score = player_a_transformed / (player_a_transformed+player_b_transformed)
-    player_b_expect_score = player_b_transformed / (player_a_transformed+player_b_transformed)
+    player_a_expect_score = float(player_a_transformed) / float(player_a_transformed+player_b_transformed)
+    player_b_expect_score = float(player_b_transformed) / float(player_a_transformed+player_b_transformed)
 
     if player_a_goals>player_b_goals:
         player_constant = _get_elo_constants(elo_player_a)
@@ -46,8 +46,8 @@ def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
     
     goals_multiplier = _get_goal_multiplier(player_a_goals,player_b_goals)
 
-    new_player_a_elo = int(elo_player_a + goals_multiplier*player_constant*(int(player_a_goals>player_b_goals)-player_a_expect_score))
-    new_player_b_elo = int(elo_player_b + goals_multiplier*player_constant*(int(player_b_goals>player_a_goals)-player_b_expect_score))
+    new_player_a_elo = int(round(elo_player_a + goals_multiplier*player_constant*float(int(player_a_goals>player_b_goals)-player_a_expect_score),0))
+    new_player_b_elo = int(round(elo_player_b + goals_multiplier*player_constant*float(int(player_b_goals>player_a_goals)-player_b_expect_score),0))
 
     return new_player_a_elo,new_player_b_elo
 
