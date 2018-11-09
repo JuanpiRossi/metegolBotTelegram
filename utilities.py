@@ -80,10 +80,12 @@ def _get_average_stats(player):
     win_count = 0
     for game in player["__$history"]:
         count+=1
-        goals+=game["__$own"]
-        enemy = [en for en in list(game.keys()) if "__$" not in en]
-        if len(enemy)==1:
-            enemy = enemy[0]
+        enemy = _get_enemy(game)
+        goals+=(game["__$own"]-game[enemy])
         if game["__$own"] > game[enemy]:
             win_count+=1
     return str(round(float(goals)/float(count),1)), str(100*round(float(win_count)/float(count),1))
+
+def _get_enemy(game):
+    enemy = [en for en in list(game.keys()) if "__$" not in en][0]
+    return enemy
