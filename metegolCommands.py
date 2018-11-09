@@ -4,9 +4,10 @@ import itertools
 import imgkit
 import uuid
 import os
+import re
 from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats
 from datetime import datetime
-from botConfig import WKHTMLTOIMAGE_PATH
+from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION
 
 def add_player(bot, update, args):
     try:
@@ -25,9 +26,9 @@ def add_player(bot, update, args):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        player = find_one("jugadores",{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
-            mongo_response = insert_one("jugadores",{"__$name":args[0],"__$elo":1800,"__$history":[]})
+            mongo_response = insert_one(PLAYERS_COLLECTION,{"__$name":args[0],"__$elo":1200,"__$history":[]})
         else:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador ya existe")
             return
@@ -54,7 +55,7 @@ def remove_player(bot, update, args):
 
         query = {}
         query[args[0]] = {"$exists":True}
-        remove_by_query("jugadores",{"__$name":args[0]})
+        remove_by_query(PLAYERS_COLLECTION,{"__$name":args[0]})
         bot.send_message(chat_id=update.message.chat_id, text="Jugador eliminado con exito")
     except Exception as ex:
         logger.exception(ex)
@@ -68,7 +69,7 @@ def players_list(bot, update):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        players = find("jugadores",{})
+        players = find(PLAYERS_COLLECTION,{})
         message = "Jugadores ( {} ):\n".format(players.count())
         for player in players:
             message = message + player["__$name"] + "\n"
@@ -93,7 +94,7 @@ def player_info(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
         
-        player = find_one("jugadores",{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
@@ -102,7 +103,7 @@ def player_info(bot, update, args):
             enemy = [player for player in list(game.keys()) if "__$" not in player]
             if len(enemy)==1:
                 enemy = enemy[0]
-                message = message + "- " + str(args[0]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + "\n"
+                message = message + "- " + str(player["__$name"]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + "\n"
             else:
                 logger.error(game)
         bot.send_message(chat_id=update.message.chat_id, text=message)
@@ -126,16 +127,16 @@ def admin_player_info(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
         
-        player = find_one("jugadores",{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
-        message = "Partidos de " + str(args[0]) + "\n"
+        message = "Partidos de " + str(player["__$name"]) + "\n"
         for game in player["__$history"]:
             enemy = [player for player in list(game.keys()) if "__$" not in player]
             if len(enemy)==1:
                 enemy = enemy[0]
-                message = message + "- " + str(args[0]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + " / " + game["__$game_id"] + "\n"
+                message = message + "- " + str(player["__$name"]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + " / " + game["__$game_id"] + "\n"
             else:
                 logger.error(game)
         bot.send_message(chat_id=update.message.chat_id, text=message)
@@ -159,11 +160,11 @@ def player_statics(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
 
-        player = find_one("jugadores",{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
-        message = "Estadisticas de " + str(args[0]) + "\n"
+        message = "Estadisticas de " + str(player["__$name"]) + "\n"
         games_dict = {}
         for game in player["__$history"]:
             enemy = [player for player in list(game.keys()) if "__$" not in player]
@@ -177,10 +178,10 @@ def player_statics(bot, update, args):
                 logger.error(game)
         for key in games_dict:
             percent = 100*(float(games_dict[key]["own"])/float(games_dict[key]["own"]+games_dict[key]["enemy"]))
-            message = message + str(args[0]) + ": " + str(games_dict[key]["own"]) + " | " + str(key) + ": " + str(games_dict[key]["enemy"]) + " - (" + str(round(percent,1)) + "%)\n"
+            message = message + str(player["__$name"]) + ": " + str(games_dict[key]["own"]) + " | " + str(key) + ": " + str(games_dict[key]["enemy"]) + " - (" + str(round(percent,1)) + "%)\n"
 
         average_goals, average_percent_games = _get_average_stats(player)
-        message = message + "Promedio de goles: " + str(average_goals) + "\n"
+        message = message + "Promedio diferencia de goles: " + str(average_goals) + "\n"
         message = message + "Promedio de partidos ganados: " + str(average_percent_games) + "%\n"
         bot.send_message(chat_id=update.message.chat_id, text=message)
     except Exception as ex:
@@ -210,11 +211,11 @@ def submit_result_goals(bot, update, args):
             return
 
 
-        player_a = find_one("jugadores",{"__$name":args[0]})
+        player_a = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player_a:
             bot.send_message(chat_id=update.message.chat_id, text="El primero jugador no existe")
             return
-        player_b = find_one("jugadores",{"__$name":args[2]})
+        player_b = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)})
         if not player_b:
             bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
             return
@@ -225,16 +226,16 @@ def submit_result_goals(bot, update, args):
         player_b["__$elo"] = player_b_elo
         game_id = str(uuid.uuid4())
         match_history_a = {"__$date":datetime.today(),"__$own":int(args[1]), "__$game_id":game_id}
-        match_history_a[str(args[2])] = int(args[3])
+        match_history_a[str(player_b["__$name"])] = int(args[3])
         match_history_b = {"__$date":datetime.today(),"__$own":int(args[3]), "__$game_id":game_id}
-        match_history_b[str(args[0])] = int(args[1])
+        match_history_b[str(player_a["__$name"])] = int(args[1])
         player_a["__$history"].append(match_history_a)
         player_b["__$history"].append(match_history_b)
-        update_doc("jugadores",{"__$name":args[0]},player_a)
-        update_doc("jugadores",{"__$name":args[2]},player_b)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player_a["__$name"]},player_a)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player_b["__$name"]},player_b)
         bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
-                                                            str(args[0])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
-                                                            str(args[2])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
+                                                            str(player_a["__$name"])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
+                                                            str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
                                                             str(game_id))
 
     except Exception as ex:
@@ -249,7 +250,8 @@ def get_elo(bot, update):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        players = find("jugadores",{},sort="-__$elo")
+        print(WKHTMLTOIMAGE_PATH)
+        players = find(PLAYERS_COLLECTION,{},sort="-__$elo")
         html = "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 300px;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 250px;}.pointColumn {width: 50px;}</style></head><body><h2>Ranking</h2><table><tr><td class='nameColumn header'>Nombre</td><td class='pointColumn header'>Puntos:</td></tr>"
         for player in players:
             html = html+"<tr><td class='nameColumn'>{NOMBRE}</td><td class='pointColumn'>{PUNTOS}</td></tr>".format(NOMBRE=player["__$name"],PUNTOS=str(int(player["__$elo"])))
@@ -288,7 +290,7 @@ def admin_remove_game(bot, update, args):
             return
         
         query = {"__$history.__$game_id":args[0]}
-        players = find("jugadores",query)
+        players = find(PLAYERS_COLLECTION,query)
         if players.count() == 0:
             bot.send_message(chat_id=update.message.chat_id, text="No se encontro el ID")
             return
@@ -300,7 +302,7 @@ def admin_remove_game(bot, update, args):
             partida.pop("__$date")
             partida.pop("__$game_id")
             partida = str(list(partida.keys())[0]) + ": " + str(partida[list(partida.keys())[0]]) + " | " + str(list(partida.keys())[1]) + ": " + str(partida[list(partida.keys())[1]])
-            update_doc("jugadores",{"__$name":player["__$name"]},new_data)
+            update_doc(PLAYERS_COLLECTION,{"__$name":player["__$name"]},new_data)
         bot.send_message(chat_id=update.message.chat_id, text="Exito al borrar la partida:\n"+str(partida))
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
@@ -319,12 +321,12 @@ def set_elo(bot,update,args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, ingresar nombre de jugador y su nuevo elo")
             return
         
-        player = find_one("jugadores",{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="No se encontro al jugador")
             return
         player["__$elo"] = int(args[1])
-        update_doc("jugadores",{"__$name":args[0]},player)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player["__$name"]},player)
         bot.send_message(chat_id=update.message.chat_id, text="Exito al actualizar el elo")
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
