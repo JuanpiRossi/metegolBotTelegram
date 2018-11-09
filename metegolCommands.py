@@ -4,6 +4,7 @@ import itertools
 import imgkit
 import uuid
 import os
+import re
 from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats
 from datetime import datetime
 from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION
@@ -25,7 +26,7 @@ def add_player(bot, update, args):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             mongo_response = insert_one(PLAYERS_COLLECTION,{"__$name":args[0],"__$elo":1200,"__$history":[]})
         else:
@@ -93,7 +94,7 @@ def player_info(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
         
-        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
@@ -102,7 +103,7 @@ def player_info(bot, update, args):
             enemy = [player for player in list(game.keys()) if "__$" not in player]
             if len(enemy)==1:
                 enemy = enemy[0]
-                message = message + "- " + str(args[0]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + "\n"
+                message = message + "- " + str(player["__$name"]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + "\n"
             else:
                 logger.error(game)
         bot.send_message(chat_id=update.message.chat_id, text=message)
@@ -126,16 +127,16 @@ def admin_player_info(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
         
-        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
-        message = "Partidos de " + str(args[0]) + "\n"
+        message = "Partidos de " + str(player["__$name"]) + "\n"
         for game in player["__$history"]:
             enemy = [player for player in list(game.keys()) if "__$" not in player]
             if len(enemy)==1:
                 enemy = enemy[0]
-                message = message + "- " + str(args[0]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + " / " + game["__$game_id"] + "\n"
+                message = message + "- " + str(player["__$name"]) + ": " + str(game["__$own"]) + " | " + str(enemy) + ": " + str(game[enemy]) + " / " + game["__$game_id"] + "\n"
             else:
                 logger.error(game)
         bot.send_message(chat_id=update.message.chat_id, text=message)
@@ -159,11 +160,11 @@ def player_statics(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
 
-        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
-        message = "Estadisticas de " + str(args[0]) + "\n"
+        message = "Estadisticas de " + str(player["__$name"]) + "\n"
         games_dict = {}
         for game in player["__$history"]:
             enemy = [player for player in list(game.keys()) if "__$" not in player]
@@ -177,7 +178,7 @@ def player_statics(bot, update, args):
                 logger.error(game)
         for key in games_dict:
             percent = 100*(float(games_dict[key]["own"])/float(games_dict[key]["own"]+games_dict[key]["enemy"]))
-            message = message + str(args[0]) + ": " + str(games_dict[key]["own"]) + " | " + str(key) + ": " + str(games_dict[key]["enemy"]) + " - (" + str(round(percent,1)) + "%)\n"
+            message = message + str(player["__$name"]) + ": " + str(games_dict[key]["own"]) + " | " + str(key) + ": " + str(games_dict[key]["enemy"]) + " - (" + str(round(percent,1)) + "%)\n"
 
         average_goals, average_percent_games = _get_average_stats(player)
         message = message + "Promedio diferencia de goles: " + str(average_goals) + "\n"
@@ -210,11 +211,11 @@ def submit_result_goals(bot, update, args):
             return
 
 
-        player_a = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player_a = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player_a:
             bot.send_message(chat_id=update.message.chat_id, text="El primero jugador no existe")
             return
-        player_b = find_one(PLAYERS_COLLECTION,{"__$name":args[2]})
+        player_b = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)})
         if not player_b:
             bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
             return
@@ -225,16 +226,16 @@ def submit_result_goals(bot, update, args):
         player_b["__$elo"] = player_b_elo
         game_id = str(uuid.uuid4())
         match_history_a = {"__$date":datetime.today(),"__$own":int(args[1]), "__$game_id":game_id}
-        match_history_a[str(args[2])] = int(args[3])
+        match_history_a[str(player_b["__$name"])] = int(args[3])
         match_history_b = {"__$date":datetime.today(),"__$own":int(args[3]), "__$game_id":game_id}
-        match_history_b[str(args[0])] = int(args[1])
+        match_history_b[str(player_a["__$name"])] = int(args[1])
         player_a["__$history"].append(match_history_a)
         player_b["__$history"].append(match_history_b)
-        update_doc(PLAYERS_COLLECTION,{"__$name":args[0]},player_a)
-        update_doc(PLAYERS_COLLECTION,{"__$name":args[2]},player_b)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player_a["__$name"]},player_a)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player_b["__$name"]},player_b)
         bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
-                                                            str(args[0])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
-                                                            str(args[2])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
+                                                            str(player_a["__$name"])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
+                                                            str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
                                                             str(game_id))
 
     except Exception as ex:
@@ -320,12 +321,12 @@ def set_elo(bot,update,args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, ingresar nombre de jugador y su nuevo elo")
             return
         
-        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="No se encontro al jugador")
             return
         player["__$elo"] = int(args[1])
-        update_doc(PLAYERS_COLLECTION,{"__$name":args[0]},player)
+        update_doc(PLAYERS_COLLECTION,{"__$name":player["__$name"]},player)
         bot.send_message(chat_id=update.message.chat_id, text="Exito al actualizar el elo")
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
