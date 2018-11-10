@@ -89,7 +89,7 @@ def _get_average_stats(player,percent=True):
     if count == 0:
         return "0.0","-","0"
     if percent:
-        return str(round((float(goals)/float(count)),1)), str(win_count), str(count)
+        return str(round((float(goals)/float(count)),1)), str(round(100*(float(win_count)/float(count)),1)), str(count)
     else:
         return str(round((float(goals)/float(count)),1)), str(win_count), str(count)
 
