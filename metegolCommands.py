@@ -5,7 +5,7 @@ import imgkit
 import uuid
 import os
 import re
-from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats
+from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats, _recalculate_points
 from datetime import datetime
 from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION
 
@@ -180,9 +180,10 @@ def player_statics(bot, update, args):
             percent = 100*(float(games_dict[key]["own"])/float(games_dict[key]["own"]+games_dict[key]["enemy"]))
             message = message + str(player["__$name"]) + ": " + str(games_dict[key]["own"]) + " | " + str(key) + ": " + str(games_dict[key]["enemy"]) + " - (" + str(round(percent,1)) + "%)\n"
 
-        average_goals, average_percent_games = _get_average_stats(player)
+        average_goals, average_percent_games, games_played = _get_average_stats(player)
         message = message + "Promedio diferencia de goles: " + str(average_goals) + "\n"
         message = message + "Promedio de partidos ganados: " + str(average_percent_games) + "%\n"
+        message = message + "Partidos jugados: " + str(games_played) + "\n"
         bot.send_message(chat_id=update.message.chat_id, text=message)
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
@@ -250,11 +251,15 @@ def get_elo(bot, update):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        print(WKHTMLTOIMAGE_PATH)
         players = find(PLAYERS_COLLECTION,{},sort="-__$elo")
-        html = "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 300px;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 250px;}.pointColumn {width: 50px;}</style></head><body><h2>Ranking</h2><table><tr><td class='nameColumn header'>Nombre</td><td class='pointColumn header'>Puntos:</td></tr>"
+        html = "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 500px;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 250px;}.pointColumn {width: 50px;}</style></head><body><h2>Ranking</h2><table><tr><td class='nameColumn header'>Nombre</td><td class='pointColumn header'>PJ</td><td class='pointColumn header'>PG</td><td class='pointColumn header'>%G</td><td class='pointColumn header'>DG</td><td class='pointColumn header'>Puntos</td></tr>"
         for player in players:
-            html = html+"<tr><td class='nameColumn'>{NOMBRE}</td><td class='pointColumn'>{PUNTOS}</td></tr>".format(NOMBRE=player["__$name"],PUNTOS=str(int(player["__$elo"])))
+            average_goals, average_percent_games, games_played = _get_average_stats(player,percent=False)
+            if int(games_played) == 0:
+                percent = "-"
+            else:
+                percent = str(round(100*float(float(average_percent_games)/float(games_played)),1))+"%"
+            html = html+"<tr><td class='nameColumn'>{NOMBRE}</td><td class='pointColumn'>{PARTJU}</td><td class='pointColumn'>{PARTGA}</td><td class='pointColumn'>{PERCENT}</td><td class='pointColumn'>{GOLES}</td><td class='pointColumn'>{PUNTOS}</td></tr>".format(NOMBRE=player["__$name"],PARTJU=games_played,PARTGA=average_percent_games,PERCENT=str(percent),GOLES=average_goals,PUNTOS=str(int(player["__$elo"])))
         html = html+"</table></body></html>"
         file_name = str(uuid.uuid4())+".png"
         path_wkthmltopdf = WKHTMLTOIMAGE_PATH
@@ -262,7 +267,7 @@ def get_elo(bot, update):
         options = {
             'format': 'png',
             'encoding': "UTF-8",
-            'crop-w': '315'
+            'crop-w': '515'
         }
         imgkit.from_string(html, file_name, options=options, config=config)
         file = open(file_name,'rb')
@@ -335,6 +340,20 @@ def set_elo(bot,update,args):
 
 def alive(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Estoy vivito en el grupo: " + str(update.message.chat.id))
+
+def recalculate_elo(bot, update):
+    try:
+        players = _recalculate_points()
+        for key in players:
+            bot.send_message(chat_id=update.message.chat_id, text="Actualizando " + str(key))
+            update_doc(PLAYERS_COLLECTION,{"__$name":key},{"$set":{"__$elo":int(players[key])}})
+            bot.send_message(chat_id=update.message.chat_id, text=str(key) + " actualizado con exito")
+        bot.send_message(chat_id=update.message.chat_id, text="Puntos actualizados")
+    except Exception as ex:
+        logger.exception(ex)
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        return
+    
 
 def _help(bot, update):
     try:

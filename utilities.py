@@ -1,6 +1,7 @@
 import logging
 from botConfig import GROUPS,ADMIN
 import datetime
+from mongoConnection import startMongo,find_one,find,update_doc,insert_one,remove_by_query
 
 def _get_logger():
     logger = logging.getLogger('metegol')
@@ -33,8 +34,9 @@ def _get_elo_constants(elo_player,constant_array=[]):
     return 1
 
 def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
-    player_a_transformed = float(10**(float(elo_player_a)/400))
-    player_b_transformed = float(10**(float(elo_player_b)/400))
+    divisor = 400
+    player_a_transformed = float(10**(float(elo_player_a)/divisor))
+    player_b_transformed = float(10**(float(elo_player_b)/divisor))
 
     player_a_expect_score = float(player_a_transformed) / float(player_a_transformed+player_b_transformed)
     player_b_expect_score = float(player_b_transformed) / float(player_a_transformed+player_b_transformed)
@@ -46,8 +48,8 @@ def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
     
     goals_multiplier = _get_goal_multiplier(player_a_goals,player_b_goals)
 
-    new_player_a_elo = int(round(elo_player_a + goals_multiplier*player_constant*float(int(player_a_goals>player_b_goals)-player_a_expect_score),0))
-    new_player_b_elo = int(round(elo_player_b + goals_multiplier*player_constant*float(int(player_b_goals>player_a_goals)-player_b_expect_score),0))
+    new_player_a_elo = int(round(elo_player_a + goals_multiplier*player_constant*float(float(int(player_a_goals>player_b_goals))-player_a_expect_score),0))
+    new_player_b_elo = int(round(elo_player_b + goals_multiplier*player_constant*float(float(int(player_b_goals>player_a_goals))-player_b_expect_score),0))
 
     return new_player_a_elo,new_player_b_elo
 
@@ -65,7 +67,7 @@ def _bot_history(command,update,message):
 def _get_goal_multiplier(goals_a,goals_b,multiplier_modifier=[]):
     if not multiplier_modifier:
         # 1, 2, 3, 4, 5, 6, 7, 8 (el primer elemento es el default, por si a alguno se le ocurre jugar por mas de 8 goles)
-        multiplier_modifier = [7,1,1.5,2,2.5,3,3.5,4,4.5]
+        multiplier_modifier = [10,1,2,3,4,5,6,7,8]
     max_goals = len(multiplier_modifier)-1
     goals_diference = abs(goals_a-goals_b)
     
@@ -74,7 +76,7 @@ def _get_goal_multiplier(goals_a,goals_b,multiplier_modifier=[]):
     else:
         return multiplier_modifier[goals_diference]
 
-def _get_average_stats(player):
+def _get_average_stats(player,percent=True):
     count = 0
     goals = 0
     win_count = 0
@@ -84,8 +86,41 @@ def _get_average_stats(player):
         goals+=(game["__$own"]-game[enemy])
         if game["__$own"] > game[enemy]:
             win_count+=1
-    return str(round(float(goals)/float(count),1)), str(100*round(float(win_count)/float(count),1))
+    if count == 0:
+        return "0.0","-","0"
+    if percent:
+        return str(round((float(goals)/float(count)),1)), str(win_count), str(count)
+    else:
+        return str(round((float(goals)/float(count)),1)), str(win_count), str(count)
 
 def _get_enemy(game):
     enemy = [en for en in list(game.keys()) if "__$" not in en][0]
     return enemy
+
+
+
+def _recalculate_points():
+    games = []
+    jugadores = {}
+    players = find("jugadores_desa",{})
+    for player in players:
+        for game in player["__$history"]:
+            enemy = _get_enemy(game)
+            tmp = dict()
+            tmp[enemy] = game[enemy]
+            if enemy not in list(jugadores.keys()):
+                jugadores[enemy] = 1800
+            if player["__$name"] not in list(jugadores.keys()):
+                jugadores[player["__$name"]] = 1800
+            tmp[player["__$name"]] = game["__$own"]
+            tmp["__$time"] = game["__$date"]
+            tmp["__$gameid"] = game["__$game_id"]
+            if game["__$game_id"] not in [g["__$gameid"] for g in games]:
+                games.append(tmp)
+
+    games = sorted(games,key=lambda k: k["__$time"])
+
+    for game in games:
+        play = list(game.keys())
+        jugadores[play[0]], jugadores[play[1]] = _calculate_elo(jugadores[play[0]], jugadores[play[1]], game[play[0]], game[play[1]])
+    return jugadores

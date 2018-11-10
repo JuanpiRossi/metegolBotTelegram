@@ -14,7 +14,8 @@ from metegolCommands import add_player,\
                             admin_remove_game,\
                             _help_admin,\
                             set_elo,\
-                            alive
+                            alive,\
+                            recalculate_elo
 
 updater = Updater(token=botConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -36,6 +37,7 @@ remove_player_handler = CommandHandler('eliminarjugador', remove_player, pass_ar
 admin_remove_game_handler = CommandHandler('removegame', admin_remove_game, pass_args=True)
 set_elo_handler = CommandHandler('setelo', set_elo, pass_args=True)
 help_admin_handler = CommandHandler('helpadmin', _help_admin)
+recalculate_handler = CommandHandler('recalculate', recalculate_elo)
 
 
 # Dispatchers
@@ -54,6 +56,7 @@ dispatcher.add_handler(admin_remove_game_handler)
 dispatcher.add_handler(remove_player_handler)
 dispatcher.add_handler(set_elo_handler)
 dispatcher.add_handler(help_admin_handler)
+dispatcher.add_handler(recalculate_handler)
 
 
 unknown_handler = MessageHandler(Filters.command, unknown)
