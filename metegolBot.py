@@ -1,6 +1,6 @@
 from telegram.ext import CommandHandler, MessageHandler, Filters, Updater, InlineQueryHandler
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
-import botConfig
+import tokenConfig
 from metegolCommands import add_player,\
                             remove_player,\
                             players_list,\
@@ -15,9 +15,10 @@ from metegolCommands import add_player,\
                             _help_admin,\
                             set_elo,\
                             alive,\
-                            recalculate_elo
+                            recalculate_elo,\
+                            link
 
-updater = Updater(token=botConfig.BOT_TOKEN)
+updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
 
 
@@ -28,6 +29,7 @@ ranking_handler = CommandHandler('ranking', get_elo)
 player_info_handler = CommandHandler('estadisticasjugador', player_statics, pass_args=True)
 player_games_handler = CommandHandler('partidosjugador', player_info, pass_args=True)
 submit_handler = CommandHandler('submit', submit_result_goals, pass_args=True)
+link_handler = CommandHandler('link', link, pass_args=True)
 alive_handler = CommandHandler('alive', alive)
 help_handler = CommandHandler('help', _help)
 
@@ -47,6 +49,7 @@ dispatcher.add_handler(ranking_handler)
 dispatcher.add_handler(player_info_handler)
 dispatcher.add_handler(player_games_handler)
 dispatcher.add_handler(submit_handler)
+dispatcher.add_handler(link_handler)
 dispatcher.add_handler(alive_handler)
 dispatcher.add_handler(help_handler)
 
