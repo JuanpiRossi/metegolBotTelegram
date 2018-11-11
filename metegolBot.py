@@ -16,7 +16,13 @@ from metegolCommands import add_player,\
                             set_elo,\
                             alive,\
                             recalculate_elo,\
-                            link
+                            link,\
+                            start_league,\
+                            common_message,\
+                            join_league,\
+                            submit_league,\
+                            league_leaderboard,\
+                            league_games
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -29,9 +35,15 @@ ranking_handler = CommandHandler('ranking', get_elo)
 player_info_handler = CommandHandler('estadisticasjugador', player_statics, pass_args=True)
 player_games_handler = CommandHandler('partidosjugador', player_info, pass_args=True)
 submit_handler = CommandHandler('submit', submit_result_goals, pass_args=True)
+submit_league_handler = CommandHandler('submitliga', submit_league, pass_args=True)
 link_handler = CommandHandler('link', link, pass_args=True)
 alive_handler = CommandHandler('alive', alive)
+join_league_handler = CommandHandler('joinliga', join_league)
+start_league_handler = CommandHandler('startliga', start_league)
+league_leaderboard_handler = CommandHandler('rankingliga', league_leaderboard)
+league_games_handler = CommandHandler('partidosliga', league_games)
 help_handler = CommandHandler('help', _help)
+common_message_handler = MessageHandler(Filters.text, common_message)
 
 #Admin handlers
 admin_player_games_handler = CommandHandler('partidosjugadoradmin', admin_player_info, pass_args=True)
@@ -48,10 +60,16 @@ dispatcher.add_handler(players_list_handler)
 dispatcher.add_handler(ranking_handler)
 dispatcher.add_handler(player_info_handler)
 dispatcher.add_handler(player_games_handler)
+dispatcher.add_handler(league_games_handler)
 dispatcher.add_handler(submit_handler)
 dispatcher.add_handler(link_handler)
 dispatcher.add_handler(alive_handler)
+dispatcher.add_handler(submit_league_handler)
+dispatcher.add_handler(join_league_handler)
+dispatcher.add_handler(league_leaderboard_handler)
+dispatcher.add_handler(start_league_handler)
 dispatcher.add_handler(help_handler)
+dispatcher.add_handler(common_message_handler)
 
 #Admin Dispatchers
 dispatcher.add_handler(admin_player_games_handler)
