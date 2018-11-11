@@ -2,6 +2,11 @@ import logging
 from botConfig import GROUPS,ADMIN
 import datetime
 from mongoConnection import startMongo,find_one,find,update_doc,insert_one,remove_by_query
+from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION
+import imgkit
+import uuid
+import os
+import re
 
 def _get_logger():
     logger = logging.getLogger('metegol')
@@ -81,11 +86,12 @@ def _get_average_stats(player,percent=True):
     goals = 0
     win_count = 0
     for game in player["__$history"]:
-        count+=1
-        enemy = _get_enemy(game)
-        goals+=(game["__$own"]-game[enemy])
-        if game["__$own"] > game[enemy]:
-            win_count+=1
+        if "type" not in game:
+            count+=1
+            enemy = _get_enemy(game)
+            goals+=(game["__$own"]-game[enemy])
+            if game["__$own"] > game[enemy]:
+                win_count+=1
     if count == 0:
         return "0.0","-","0"
     if percent:
@@ -124,3 +130,97 @@ def _recalculate_points():
         play = list(game.keys())
         jugadores[play[0]], jugadores[play[1]] = _calculate_elo(jugadores[play[0]], jugadores[play[1]], game[play[0]], game[play[1]])
     return jugadores
+
+
+def _submit_league_game(bot,update,league,player_a,player_b,goals_a,goals_b):
+    for index,partido in enumerate(league["partidos"]):
+        if player_a.lower() in partido and player_b.lower() in partido:
+            if partido["games"] >= league["config"]["cant_partidos"]:
+                bot.send_message(chat_id=update.message.chat_id, text='Ya se jugaron todos los partidos de estos jugadores')
+                return False
+            league["partidos"][index][player_a.lower()]+=goals_a
+            league["partidos"][index][player_b.lower()]+=goals_b
+            league["partidos"][index]["games"]+=1
+            update_doc(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"},league)
+            return True
+    bot.send_message(chat_id=update.message.chat_id, text='No se encontraron a los jugadores')
+    return False
+
+def _validate_end_league(bot,update,league):
+    for partido in league["partidos"]:
+        if partido["games"] != league["config"]["cant_partidos"]:
+            return
+    league["__$STATE"] = "END"
+    update_doc(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"},league)
+    bot.send_message(chat_id=update.message.chat_id, text='Finalizo la liga: ' + str(league["config"]["nombre_liga"]))
+    date = datetime.datetime.today()
+    for player in _calculta_league_position(league):
+        player_data = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)})
+        player_data["__$elo"]+=player["POINTS"]
+        player_data["__$history"].append({"type":"liga","points":player["POINTS"],"name":league["config"]["nombre_liga"]})
+        update_doc(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)},player_data)
+    _render_league_image(bot, update, league)
+    _render_league_games(bot, update, league)
+
+def _render_league_image(bot, update, league):
+    html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Liga: {NOMBRELIGA}</h2><table><tr><td class='nameColumn header'>Jugador</td><td class='pointColumn header'>Partidos jugados</td><td class='pointColumn header'>Partidos ganados</td><td class='pointColumn header'>Goles a favor</td><td class='pointColumn header'>Puntos</td></tr>""".replace("{NOMBRELIGA}",league["config"]["nombre_liga"])
+    players = _calculta_league_position(league)
+    for player in players:
+        html+="""<tr><td class='nameColumn'>{NAME}</td><td class='pointColumn'>{PJ}</td><td class='pointColumn'>{PG}</td><td class='pointColumn'>{GA}</td><td class='pointColumn'>{POINTS}</td></tr>""".format(**player)
+    html+="""</table></body></html>"""
+    file_name = str(uuid.uuid4())+".png"
+    path_wkthmltopdf = WKHTMLTOIMAGE_PATH
+    config = imgkit.config(wkhtmltoimage=path_wkthmltopdf)
+    options = {
+        'format': 'png',
+        'encoding': "UTF-8",
+        'crop-w': '415'
+    }
+    imgkit.from_string(html, file_name, options=options, config=config)
+    file = open(file_name,'rb')
+    bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    file.close()
+    os.remove(file_name)
+
+def _render_league_games(bot, update, league):
+    html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Partidos</h2><table><tr><td class='nameColumn header'>Jugador A</td><td class='nameColumn header'>Jugador B</td><td class='pointColumn header'>Golas A</td><td class='pointColumn header'>Goles B</td><td class='pointColumn header'>PJ</td></tr>"""
+    for game in league["partidos"]:
+        players = [key for key in list(game.keys()) if key != "games"]
+        html+="""<tr><td class='nameColumn'>{JUGA}</td><td class='nameColumn'>{JUGB}</td><td class='pointColumn'>{GA}</td><td class='pointColumn'>{GB}</td><td class='pointColumn'>{PJ}</td></tr>""".format(JUGA=players[0],JUGB=players[1],GA=game[players[0]],GB=game[players[1]],PJ=game["games"])
+    html+="""</table></body></html>"""
+    file_name = str(uuid.uuid4())+".png"
+    path_wkthmltopdf = WKHTMLTOIMAGE_PATH
+    config = imgkit.config(wkhtmltoimage=path_wkthmltopdf)
+    options = {
+        'format': 'png',
+        'encoding': "UTF-8",
+        'crop-w': '435'
+    }
+    imgkit.from_string(html, file_name, options=options, config=config)
+    file = open(file_name,'rb')
+    bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    file.close()
+    os.remove(file_name)
+
+def _calculta_league_position(league):
+    players_points = {}
+    for partido in league["partidos"]:
+        players = [key for key in list(partido.keys()) if key != "games"]
+        for player in players:
+            if player not in players_points:
+                players_points[player] = {"points":0,"pj":0,"pg":0,"ga":0}
+        if not (partido[players[0]] == 0 and partido[players[1]] == 0):
+            players_points[players[0]]["pj"]+=1
+            players_points[players[1]]["pj"]+=1
+            players_points[players[0]]["ga"]+=partido[players[0]]-partido[players[1]]
+            players_points[players[1]]["ga"]+=partido[players[1]]-partido[players[0]]
+            if partido[players[0]] > partido[players[1]]:
+                players_points[players[0]]["points"]+=3
+                players_points[players[0]]["pg"]+=1
+            elif partido[players[0]] < partido[players[1]]:
+                players_points[players[1]]["points"]+=3
+                players_points[players[1]]["pg"]+=1
+            else:
+                players_points[players[0]]["points"]+=1
+                players_points[players[1]]["points"]+=1
+    return sorted([{"NAME":player,"POINTS":players_points[player]["points"],"PJ":players_points[player]["pj"],"PG":players_points[player]["pg"],"GA":players_points[player]["ga"]} for player in players_points],key=lambda k: (k["POINTS"],k["GA"]), reverse=True)
