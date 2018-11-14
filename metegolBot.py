@@ -31,7 +31,7 @@ dispatcher = updater.dispatcher
 # Handlers]]
 add_player_handler = CommandHandler('nuevojugador', add_player, pass_args=True)
 players_list_handler = CommandHandler('listajugadores', players_list)
-ranking_handler = CommandHandler('ranking', get_elo)
+ranking_handler = CommandHandler('historico', get_elo)
 player_info_handler = CommandHandler('estadisticasjugador', player_statics, pass_args=True)
 player_games_handler = CommandHandler('partidosjugador', player_info, pass_args=True)
 submit_handler = CommandHandler('submit', submit_result_goals, pass_args=True)

@@ -224,3 +224,6 @@ def _calculta_league_position(league):
                 players_points[players[0]]["points"]+=1
                 players_points[players[1]]["points"]+=1
     return sorted([{"NAME":player,"POINTS":players_points[player]["points"],"PJ":players_points[player]["pj"],"PG":players_points[player]["pg"],"GA":players_points[player]["ga"]} for player in players_points],key=lambda k: (k["POINTS"],k["GA"]), reverse=True)
+
+def _podio_checker(update,bot):
+    pass

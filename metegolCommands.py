@@ -1,6 +1,7 @@
 from mongoConnection import startMongo,find_one,find,update_doc,insert_one,remove_by_query
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 import telegram
+from random import randint
 import itertools
 import imgkit
 import uuid
@@ -89,12 +90,11 @@ def player_info(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
         if not args:
-            bot.send_message(chat_id=update.message.chat_id, text="Por favor, agregar nombre del jugador")
-            return
-        elif len(args) != 1:
+            args = [str(update.message.from_user.id)]
+        elif len(args) > 1:
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
-        player = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
+        player = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]},{"__$tel_id":int(args[0])}]})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
@@ -156,13 +156,12 @@ def player_statics(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
         if not args:
-            bot.send_message(chat_id=update.message.chat_id, text="Por favor, agregar nombre del jugador")
-            return
+            args = [str(update.message.from_user.id)]
         elif len(args) != 1:
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
 
-        player = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
+        player = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]},{"__$tel_id":int(args[0])}]})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
@@ -518,7 +517,7 @@ def start_playing_league(bot, update, league):
         bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
         file.close()
         os.remove(file_name)
-        update_doc(LEAGUES_COLLECTION,{"__$STATE":"JOINING"},league)
+        update_doc(LEAGUES_COLLECTION,{"__$STATE":"JOINI,NG"},league)
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
@@ -633,7 +632,20 @@ def common_message(bot, update):
     elif update.message.text == "Solo ida" or update.message.text == "Ida y vuelta":
         cruces_partidos(bot, update)
         return
-    bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
+    
+    #EXCEPCIONES
+    if str(update.message.from_user.id) == "145482249":
+        xavi_gato(bot, update)
+    elif "látigo" in update.message.text or "latigo" in update.message.text:
+        bot.send_message(chat_id=update.message.chat_id, text="A vos te vamos a dar latigo gil")
+    elif "gato" in update.message.text:
+        bot.send_message(chat_id=update.message.chat_id, text="Gato vo eh")
+    elif "bot" in update.message.text:
+        bot.send_message(chat_id=update.message.chat_id, text="El bot soy yo papa")
+    elif "asd" in update.message.text:
+        bot.send_message(chat_id=update.message.chat_id, text="asdasdasdfaddfasdfbdaskjhfbaweivhbawerihvkbawdiyuvhbasdvikujwaedbviawdyhvb asdkijvhbasdf ikvhsbadvikahsdbv ikasdhjvbdsawiukjhvbawdsiuhjvbsadiouvb sodubfvwdsoufbwsdaioujvbisaduhjbvciaskdub")
+    else:
+        bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
 
 def unknown(bot, update):
     try:
@@ -647,3 +659,32 @@ def unknown(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
         return
+
+def xavi_gato(bot, update):
+    try:
+        logger = _get_logger()
+        mensajes_array = ["Xavi salvaje",
+        "Xavi, no me hables, soy un puto robot",
+        "Xavi DEJAME EN PAZ",
+        "Xavi la puta madre",
+        "Xavi...",
+        "Mi no entender... xavi...",
+        "Cuantos xavis se necesitan para cambiar una lamparita?",
+        "Xavi. SOY. UN. BOT!",
+        "Xavi, te llama fran",
+        "Xavi vamos a comer?",
+        "Ivax",
+        "List out of xavix",
+        "Mira mi huevo",
+        "Esto te va a fazinar",
+        "Cebollas te hacen llorar?",
+        "Necesito mandar plugines a produccion",
+        "El de arriba es bobo",
+        "Xavi, te nomino a bobo del mes"]
+        
+        bot.send_message(chat_id=update.message.chat_id, text=str(mensajes_array[randint(0, len(mensajes_array)-1)]))
+    except Exception as ex:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
+    
