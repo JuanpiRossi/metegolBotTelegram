@@ -22,7 +22,8 @@ from metegolCommands import add_player,\
                             join_league,\
                             submit_league,\
                             league_leaderboard,\
-                            league_games
+                            league_games,\
+                            get_elo_weekly
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -31,7 +32,8 @@ dispatcher = updater.dispatcher
 # Handlers]]
 add_player_handler = CommandHandler('nuevojugador', add_player, pass_args=True)
 players_list_handler = CommandHandler('listajugadores', players_list)
-ranking_handler = CommandHandler('historico', get_elo)
+ranking_handler = CommandHandler('ranking', get_elo)
+get_elo_weekly_handler = CommandHandler('semanal', get_elo_weekly)
 player_info_handler = CommandHandler('estadisticasjugador', player_statics, pass_args=True)
 player_games_handler = CommandHandler('partidosjugador', player_info, pass_args=True)
 submit_handler = CommandHandler('submit', submit_result_goals, pass_args=True)
@@ -58,6 +60,7 @@ recalculate_handler = CommandHandler('recalculate', recalculate_elo)
 dispatcher.add_handler(add_player_handler)
 dispatcher.add_handler(players_list_handler)
 dispatcher.add_handler(ranking_handler)
+# dispatcher.add_handler(get_elo_weekly_handler)
 dispatcher.add_handler(player_info_handler)
 dispatcher.add_handler(player_games_handler)
 dispatcher.add_handler(league_games_handler)
