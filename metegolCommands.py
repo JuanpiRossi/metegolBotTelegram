@@ -570,7 +570,7 @@ def start_playing_league(bot, update, league):
         bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
         file.close()
         os.remove(file_name)
-        update_doc(LEAGUES_COLLECTION,{"__$STATE":"JOINI,NG"},league)
+        update_doc(LEAGUES_COLLECTION,{"__$STATE":"JOINING"},league)
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
