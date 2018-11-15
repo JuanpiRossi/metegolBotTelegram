@@ -409,6 +409,10 @@ def link(bot,update,args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, ingrese el nombre del jugador al que desea vincular su usuario")
             return
         
+        player = find_one(PLAYERS_COLLECTION,{"__$tel_id":update.message.from_user.id})
+        if player:
+            bot.send_message(chat_id=update.message.chat_id, text="Ya estas vinculado a otro jugador")
+            return
         player = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)})
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="No se encontro al jugador")
