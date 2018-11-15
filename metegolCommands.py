@@ -738,3 +738,12 @@ def xavi_gato(bot, update):
         logger.exception(ex)
         return
     
+def bardeandopuntocom(bot, update, args):
+    try:
+        speak_chat = args[0]
+        message = " ".join(args[1:])
+        bot.send_message(chat_id=speak_chat, text=str(message))
+    except:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
