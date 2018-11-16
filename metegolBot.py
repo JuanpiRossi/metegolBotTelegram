@@ -24,7 +24,8 @@ from metegolCommands import add_player,\
                             league_leaderboard,\
                             league_games,\
                             get_elo_weekly,\
-                            bardeandopuntocom
+                            bardeandopuntocom,\
+                            agregar_a_liga
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -56,6 +57,7 @@ admin_remove_game_handler = CommandHandler('removegame', admin_remove_game, pass
 set_elo_handler = CommandHandler('setelo', set_elo, pass_args=True)
 help_admin_handler = CommandHandler('helpadmin', _help_admin)
 recalculate_handler = CommandHandler('recalculate', recalculate_elo)
+agregar_liga_handler = CommandHandler('agregarliga', agregar_a_liga, pass_args=True)
 
 
 # Dispatchers
@@ -84,6 +86,7 @@ dispatcher.add_handler(remove_player_handler)
 dispatcher.add_handler(set_elo_handler)
 dispatcher.add_handler(help_admin_handler)
 dispatcher.add_handler(recalculate_handler)
+dispatcher.add_handler(agregar_liga_handler)
 
 
 unknown_handler = MessageHandler(Filters.command, unknown)

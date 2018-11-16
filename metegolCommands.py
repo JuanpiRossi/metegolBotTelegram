@@ -700,6 +700,40 @@ def common_message(bot, update):
     else:
         bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
 
+def agregar_a_liga(bot, update, args):
+    try:
+        logger = _get_logger()
+        if not _authenticate_admin(update):
+            bot.send_message(chat_id=update.message.chat_id, text="Requiere autorizacion de un administrador")
+            return
+        if not args or len(args)!=1:
+            bot.send_message(chat_id=update.message.chat_id, text="Carga solo un jugador")
+            return
+        league = find_one(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"})
+        if not league:
+            bot.send_message(chat_id=update.message.chat_id, text="No se està jugando ninguna liga")
+            return
+        player = find_one(PLAYERS_COLLECTION,{"__$name":args[0]})
+        if not player:
+            bot.send_message(chat_id=update.message.chat_id, text="Jugador no existe")
+            return
+        
+        for p in league["players"]:
+            tmp = {}
+            tmp["games"] = 0
+            tmp[player["__$name"]] = 0
+            tmp[p] = 0
+            league["partidos"].append(tmp)
+
+        league["players"].append(player["__$name"])
+        
+        update_doc(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"},league)
+        bot.send_message(chat_id=update.message.chat_id, text="Jugador agregado con exito a la liga!")
+    except Exception as ex:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
+
 def unknown(bot, update):
     try:
         logger = _get_logger()
@@ -707,7 +741,8 @@ def unknown(bot, update):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
+        if str(update.message.from_user.id) != "528527409":
+            bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
@@ -743,9 +778,12 @@ def xavi_gato(bot, update):
     
 def bardeandopuntocom(bot, update, args):
     try:
-        speak_chat = args[0]
-        message = " ".join(args[1:])
-        bot.send_message(chat_id=speak_chat, text=str(message))
+        if str(update.message.from_user.id) == "528527409":
+            speak_chat = args[0]
+            message = " ".join(args[1:])
+            bot.send_message(chat_id=speak_chat, text=str(message))
+        else:
+            bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
     except:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
