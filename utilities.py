@@ -210,8 +210,8 @@ def _calculta_league_position(league):
             if player not in players_points:
                 players_points[player] = {"points":0,"pj":0,"pg":0,"ga":0}
         if not (partido[players[0]] == 0 and partido[players[1]] == 0):
-            players_points[players[0]]["pj"]+=1
-            players_points[players[1]]["pj"]+=1
+            players_points[players[0]]["pj"]+=partido["games"]
+            players_points[players[1]]["pj"]+=partido["games"]
             players_points[players[0]]["ga"]+=partido[players[0]]-partido[players[1]]
             players_points[players[1]]["ga"]+=partido[players[1]]-partido[players[0]]
             if partido[players[0]] > partido[players[1]]:
