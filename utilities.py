@@ -123,6 +123,7 @@ def _recalculate_points():
                 tmp["__$time"] = game["__$date"]
                 tmp["__$gameid"] = game["__$game_id"]
                 tmp["type"] = "normal"
+                tmp["names"] = [enemy,player["__$name"]]
                 if game["__$game_id"] not in [g["__$gameid"] for g in games if "__$gameid" in g]:
                     games.append(tmp)
             elif game["type"] == "liga":
@@ -138,7 +139,7 @@ def _recalculate_points():
 
     for game in games:
         if game["type"] == "normal":
-            play = list(game.keys())
+            play = game["names"]
             jugadores[play[0]], jugadores[play[1]] = _calculate_elo(jugadores[play[0]], jugadores[play[1]], game[play[0]], game[play[1]])
         elif game["type"] == "liga":
             jugadores[game["__$name"]] = jugadores[game["__$name"]] + (game["points"]*game["players"])
