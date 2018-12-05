@@ -108,7 +108,7 @@ def _get_enemy(game):
 def _recalculate_points():
     games = []
     jugadores = {}
-    players = find("jugadores_desa",{})
+    players = find(PLAYERS_COLLECTION,{})
     for player in players:
         for game in player["__$history"]:
             tmp = dict()
