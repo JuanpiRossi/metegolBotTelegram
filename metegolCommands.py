@@ -10,6 +10,7 @@ import re
 from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats, _recalculate_points, _submit_league_game,_validate_end_league, _render_league_image, _render_league_games
 from datetime import datetime
 from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION, WEEKLY
+import codecs
 
 def add_player(bot, update, args):
     try:
@@ -251,6 +252,12 @@ def submit_result_goals(bot, update, args):
                                                             str(player_a["__$name"])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
                                                             str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
                                                             str(game_id))
+        if (int(args[1]) == 8 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 8):
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("8a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
+        if (int(args[1]) == 7 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 7):
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("7a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
+        if (int(args[1]) == 7 and int(args[3]) == 1) or (int(args[1]) == 1 and int(args[3]) == 7):
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("7a1.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
         return True
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
@@ -440,10 +447,10 @@ def recalculate_elo(bot, update):
             return
         players = _recalculate_points()
         for key in players:
-            bot.send_message(chat_id=update.message.chat_id, text="Actualizando " + str(key))
+            bot.send_message(chat_id=update.message.chat_id, text="Actualizando " + str(key), timeout=60)
             update_doc(PLAYERS_COLLECTION,{"__$name":key},{"$set":{"__$elo":int(players[key])}})
-            bot.send_message(chat_id=update.message.chat_id, text=str(key) + " actualizado con exito")
-        bot.send_message(chat_id=update.message.chat_id, text="Puntos actualizados")
+            bot.send_message(chat_id=update.message.chat_id, text=str(key) + " actualizado con exito", timeout=60)
+        bot.send_message(chat_id=update.message.chat_id, text="Puntos actualizados", timeout=60)
     except Exception as ex:
         logger.exception(ex)
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
@@ -778,12 +785,22 @@ def xavi_gato(bot, update):
     
 def bardeandopuntocom(bot, update, args):
     try:
+        logger = _get_logger()
         if str(update.message.from_user.id) == "528527409":
             speak_chat = args[0]
             message = " ".join(args[1:])
             bot.send_message(chat_id=speak_chat, text=str(message))
         else:
             bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
+    except:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
+
+def start_torneo(bot,update):
+    try:
+        logger = _get_logger()
+        bot.send_message(chat_id=update.message.chat_id, text="Todavia no hago nada campeon")
     except:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)

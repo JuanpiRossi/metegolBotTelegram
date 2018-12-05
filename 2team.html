@@ -1,0 +1,69 @@
+<style>
+  .cell {
+    width: 300px;
+    height: 40px;
+  }
+
+  .winner {
+    color: green;
+    font-weight: bold;
+  }
+
+  .loser {
+    color: red;
+  }
+
+  .normal {
+    color: black;
+  }
+
+  .top {
+    position: relative;
+    top: 12px;
+  }
+
+  .bot {
+    position: relative;
+    bottom: 12px;
+  }
+
+  .name {
+    padding-left: 20px;
+    float: left;
+  }
+
+  .points {
+    padding-right: 30px;
+    float: right;
+  }
+
+</style>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none none solid none;">
+        <p class="name top {player1_color}">{player1}</p>
+        <p class="points top {player1_color}">{player1_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid solid none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none solid solid;">
+        <p class="name top {player1-2_color}">{player1-2}</p>
+        <p class="points top {player1-2_color}"></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none solid solid none;"></td>
+      <td class="cell" style="border-width:2px;border-style: solid none none solid;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid none none none;">
+        <p class="name bot {player2_color}">{player2}</p>
+        <p class="points bot {player2_color}">{player2_points}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+  </tbody>
+</table>
