@@ -47,9 +47,9 @@ def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
     player_b_expect_score = float(player_b_transformed) / float(player_a_transformed+player_b_transformed)
 
     if player_a_goals>player_b_goals:
-        player_constant = _get_elo_constants(elo_player_a)
+        player_constant = _get_elo_constants(elo_player_a,25)
     else:
-        player_constant = _get_elo_constants(elo_player_b)
+        player_constant = _get_elo_constants(elo_player_b,25)
     
     goals_multiplier = _get_goal_multiplier(player_a_goals,player_b_goals)
 
@@ -72,7 +72,7 @@ def _bot_history(command,update,message):
 def _get_goal_multiplier(goals_a,goals_b,multiplier_modifier=[]):
     if not multiplier_modifier:
         # 1, 2, 3, 4, 5, 6, 7, 8 (el primer elemento es el default, por si a alguno se le ocurre jugar por mas de 8 goles)
-        multiplier_modifier = [10,1,2,3,4,5,6,7,8]
+        multiplier_modifier = [10,0.3,0.6,0.9,1.2,1.5,1.8,2.1,2.4]
     max_goals = len(multiplier_modifier)-1
     goals_diference = abs(goals_a-goals_b)
     
@@ -111,24 +111,37 @@ def _recalculate_points():
     players = find("jugadores_desa",{})
     for player in players:
         for game in player["__$history"]:
-            enemy = _get_enemy(game)
             tmp = dict()
-            tmp[enemy] = game[enemy]
-            if enemy not in list(jugadores.keys()):
-                jugadores[enemy] = 1800
-            if player["__$name"] not in list(jugadores.keys()):
-                jugadores[player["__$name"]] = 1800
-            tmp[player["__$name"]] = game["__$own"]
-            tmp["__$time"] = game["__$date"]
-            tmp["__$gameid"] = game["__$game_id"]
-            if game["__$game_id"] not in [g["__$gameid"] for g in games]:
+            if "type" not in game:
+                enemy = _get_enemy(game)
+                tmp[enemy] = game[enemy]
+                if enemy not in list(jugadores.keys()):
+                    jugadores[enemy] = 1800
+                if player["__$name"] not in list(jugadores.keys()):
+                    jugadores[player["__$name"]] = 1800
+                tmp[player["__$name"]] = game["__$own"]
+                tmp["__$time"] = game["__$date"]
+                tmp["__$gameid"] = game["__$game_id"]
+                tmp["type"] = "normal"
+                if game["__$game_id"] not in [g["__$gameid"] for g in games if "__$gameid" in g]:
+                    games.append(tmp)
+            elif game["type"] == "liga":
+                tmp["type"] = "liga"
+                tmp["__$name"] = player["__$name"]
+                tmp["__$time"] = game["__$date"]
+                tmp["players"] = game["players"]
+                tmp["points"] = game["points"]
                 games.append(tmp)
+
 
     games = sorted(games,key=lambda k: k["__$time"])
 
     for game in games:
-        play = list(game.keys())
-        jugadores[play[0]], jugadores[play[1]] = _calculate_elo(jugadores[play[0]], jugadores[play[1]], game[play[0]], game[play[1]])
+        if game["type"] == "normal":
+            play = list(game.keys())
+            jugadores[play[0]], jugadores[play[1]] = _calculate_elo(jugadores[play[0]], jugadores[play[1]], game[play[0]], game[play[1]])
+        elif game["type"] == "liga":
+            jugadores[game["__$name"]] = jugadores[game["__$name"]] + (game["points"]*game["players"])
     return jugadores
 
 
@@ -156,8 +169,8 @@ def _validate_end_league(bot,update,league):
     date = datetime.datetime.today()
     for player in _calculta_league_position(league):
         player_data = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)})
-        player_data["__$elo"]+=player["POINTS"]
-        player_data["__$history"].append({"type":"liga","points":player["POINTS"],"name":league["config"]["nombre_liga"]})
+        player_data["__$elo"]+=(player["POINTS"]*len(league["players"]))
+        player_data["__$history"].append({"type":"liga","points":player["POINTS"],"name":league["config"]["nombre_liga"],"__$date":date,"players":len(league["players"])})
         update_doc(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)},player_data)
     _render_league_image(bot, update, league)
     _render_league_games(bot, update, league)
@@ -183,7 +196,7 @@ def _render_league_image(bot, update, league):
     os.remove(file_name)
 
 def _render_league_games(bot, update, league):
-    html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Partidos</h2><table><tr><td class='nameColumn header'>Jugador A</td><td class='nameColumn header'>Jugador B</td><td class='pointColumn header'>Golas A</td><td class='pointColumn header'>Goles B</td><td class='pointColumn header'>PJ</td></tr>"""
+    html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Partidos</h2><table><tr><td class='nameColumn header'>Jugador A</td><td class='nameColumn header'>Jugador B</td><td class='pointColumn header'>Goles A</td><td class='pointColumn header'>Goles B</td><td class='pointColumn header'>PJ</td></tr>"""
     for game in league["partidos"]:
         players = [key for key in list(game.keys()) if key != "games"]
         html+="""<tr><td class='nameColumn'>{JUGA}</td><td class='nameColumn'>{JUGB}</td><td class='pointColumn'>{GA}</td><td class='pointColumn'>{GB}</td><td class='pointColumn'>{PJ}</td></tr>""".format(JUGA=players[0],JUGB=players[1],GA=game[players[0]],GB=game[players[1]],PJ=game["games"])

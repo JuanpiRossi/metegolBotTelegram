@@ -25,7 +25,8 @@ from metegolCommands import add_player,\
                             league_games,\
                             get_elo_weekly,\
                             bardeandopuntocom,\
-                            agregar_a_liga
+                            agregar_a_liga,\
+                            start_torneo
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -44,6 +45,7 @@ link_handler = CommandHandler('link', link, pass_args=True)
 alive_handler = CommandHandler('alive', alive)
 join_league_handler = CommandHandler('joinliga', join_league)
 start_league_handler = CommandHandler('startliga', start_league)
+start_torneo_handler = CommandHandler('starttorneo', start_torneo)
 league_leaderboard_handler = CommandHandler('rankingliga', league_leaderboard)
 league_games_handler = CommandHandler('partidosliga', league_games)
 help_handler = CommandHandler('help', _help)
@@ -76,6 +78,7 @@ dispatcher.add_handler(submit_league_handler)
 dispatcher.add_handler(join_league_handler)
 dispatcher.add_handler(league_leaderboard_handler)
 dispatcher.add_handler(start_league_handler)
+dispatcher.add_handler(start_torneo_handler)
 dispatcher.add_handler(help_handler)
 dispatcher.add_handler(common_message_handler)
 

@@ -1,0 +1,106 @@
+<style>
+  .cell {
+    width: 300px;
+    height: 40px;
+  }
+
+  .winner {
+    color: green;
+    font-weight: bold;
+  }
+
+  .loser {
+    color: red;
+  }
+
+  .normal {
+    color: black;
+  }
+
+  .top {
+    position: relative;
+    top: 12px;
+  }
+
+  .bot {
+    position: relative;
+    bottom: 12px;
+  }
+
+  .name {
+    padding-left: 20px;
+    float: left;
+  }
+
+  .points {
+    padding-right: 30px;
+    float: right;
+  }
+
+</style>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none none solid none;">
+        <p class="name top {player1_color}">{player1}</p>
+        <p class="points top {player1_color}">{player1_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid solid none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none solid solid;">
+        <p class="name top {player1-2_color}">{player1-2}</p>
+        <p class="points top {player1-2_color}">{player1-2_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none solid solid none;"></td>
+      <td class="cell" style="border-width:2px;border-style: solid solid none solid;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none none solid;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid none none none;">
+        <p class="name bot {player2_color}">{player2}</p>
+        <p class="points bot {player2_color}">{player2_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none solid none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none solid solid;">
+        <p class="name top {player1-2-3-4_color}">{player1-2-3-4}</p>
+        <p class="points top {player1-2-3-4_color}">{player1-2-3-4_point}</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none none solid none;">
+        <p class="name top {player3_color}">{player3}</p>
+        <p class="points top {player3_color}">{player3_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none solid none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: solid none none solid;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid solid none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none solid solid solid;">
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none solid;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: none solid solid none;"></td>
+      <td class="cell" style="border-width:2px;border-style: solid none none solid;">
+        <p class="name bot {player3-4_color}">{player3-4}</p>
+        <p class="points bot {player3-4_color}">{player3-4_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+    <tr>
+      <td class="cell" style="border-width:2px;border-style: solid none none none;">
+        <p class="name bot {player4_color}">{player4}</p>
+        <p class="points bot {player4_color}">{player4_point}</p>
+      </td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+      <td class="cell" style="border-width:2px;border-style: none none none none;"></td>
+    </tr>
+  </tbody>
+</table>
