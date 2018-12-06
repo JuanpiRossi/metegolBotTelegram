@@ -253,11 +253,11 @@ def submit_result_goals(bot, update, args):
                                                             str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
                                                             str(game_id))
         if (int(args[1]) == 8 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 8):
-            bot.sendDocument(chat_id=update.message.chat_id, document=open("8a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("/var/sources/metegolBotTelegram/8a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
         if (int(args[1]) == 7 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 7):
-            bot.sendDocument(chat_id=update.message.chat_id, document=open("7a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("/var/sources/metegolBotTelegram/7a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
         if (int(args[1]) == 7 and int(args[3]) == 1) or (int(args[1]) == 1 and int(args[3]) == 7):
-            bot.sendDocument(chat_id=update.message.chat_id, document=open("7a1.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
+            bot.sendDocument(chat_id=update.message.chat_id, document=open("/var/sources/metegolBotTelegram/7a1.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
         return True
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
@@ -438,6 +438,9 @@ def link(bot,update,args):
 
 def alive(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Estoy vivito en el grupo: " + str(update.message.chat.id))
+
+def test_gif(bot, update):
+    bot.sendDocument(chat_id=update.message.chat_id, document=open("/var/sources/metegolBotTelegram/test.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
 
 def recalculate_elo(bot, update):
     try:
