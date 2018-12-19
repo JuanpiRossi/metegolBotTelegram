@@ -7,7 +7,7 @@ import imgkit
 import uuid
 import os
 import re
-from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats, _recalculate_points, _submit_league_game,_validate_end_league, _render_league_image, _render_league_games
+from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_admin,_bot_history, _get_average_stats, _recalculate_points, _submit_league_game,_validate_end_league, _render_league_image, _render_league_games, submit_simple, submit_doble
 from datetime import datetime
 from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION, WEEKLY
 import codecs
@@ -164,7 +164,12 @@ def player_statics(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Por favor, el nombre del jugador no puede tener espacios")
             return
 
-        player = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]},{"__$tel_id":int(args[0])}]})
+        query = {"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]}
+        try:
+            query["$or"].append({"__$tel_id":int(args[0])})
+        except:
+            pass
+        player = find_one(PLAYERS_COLLECTION,query)
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text="El jugador no existe")
             return
@@ -216,42 +221,14 @@ def submit_result_goals(bot, update, args):
             bot.send_message(chat_id=update.message.chat_id, text="Debe cargar goles numericos")
             return False
 
-
-        player_a = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
-        player_a_week = find_one(WEEKLY,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
-        if not player_a:
-            bot.send_message(chat_id=update.message.chat_id, text="El primero jugador no existe")
-            return False
-        player_b = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)},{"__$tel_name":args[2][1:]}]})
-        player_b_week = find_one(WEEKLY,{"$or":[{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)},{"__$tel_name":args[2][1:]}]})
-        if not player_b:
-            bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
-            return False
-        player_a_elo,player_b_elo = _calculate_elo(player_a["__$elo"], player_b["__$elo"], int(args[1]), int(args[3]))
-        player_a_elo_week,player_b_elo_week = _calculate_elo(player_a_week["__$elo"], player_b_week["__$elo"], int(args[1]), int(args[3]))
-        player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(player_a_elo-player_a["__$elo"]))
-        player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(player_b_elo-player_b["__$elo"]))
-        player_a["__$elo"] = player_a_elo
-        player_b["__$elo"] = player_b_elo
-        player_a_week["__$elo"] = player_a_elo_week
-        player_b_week["__$elo"] = player_b_elo_week
-        game_id = str(uuid.uuid4())
-        match_history_a = {"__$date":datetime.today(),"__$own":int(args[1]), "__$game_id":game_id}
-        match_history_a[str(player_b["__$name"])] = int(args[3])
-        match_history_b = {"__$date":datetime.today(),"__$own":int(args[3]), "__$game_id":game_id}
-        match_history_b[str(player_a["__$name"])] = int(args[1])
-        player_a["__$history"].append(match_history_a)
-        player_b["__$history"].append(match_history_b)
-        player_a_week["__$history"].append(match_history_a)
-        player_b_week["__$history"].append(match_history_b)
-        update_doc(PLAYERS_COLLECTION,{"__$name":player_a["__$name"]},player_a)
-        update_doc(PLAYERS_COLLECTION,{"__$name":player_b["__$name"]},player_b)
-        update_doc(WEEKLY,{"__$name":player_a["__$name"]},player_a_week)
-        update_doc(WEEKLY,{"__$name":player_b["__$name"]},player_b_week)
-        bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
-                                                            str(player_a["__$name"])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
-                                                            str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
-                                                            str(game_id))
+        if "&" in args[0] and "&" in args[2]:
+            submit_doble(bot, update, args)
+        elif "&" not in args[0] and "&" not in args[2]:
+            submit_simple(bot, update, args)
+        else:
+            bot.send_message(chat_id=update.message.chat_id, text="No se pueden cargar partidos de parejas contra un solo jugador")
+            return
+        
         if (int(args[1]) == 8 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 8):
             bot.sendDocument(chat_id=update.message.chat_id, document=open("/var/sources/metegolBotTelegram/8a0.gif","rb"), timeout=120, reply_to_message_id=update.message.message_id)
         if (int(args[1]) == 7 and int(args[3]) == 0) or (int(args[1]) == 0 and int(args[3]) == 7):
@@ -356,8 +333,8 @@ def admin_remove_game(bot, update, args):
             return
         for player in players:
             new_data = player
-            partida = [game for game in player["__$history"] if game["__$game_id"] == args[0]][0]
-            new_data["__$history"] = [game for game in player["__$history"] if game["__$game_id"] != args[0]]
+            partida = [game for game in player["__$history"] if "__$game_id" in game and game["__$game_id"] == args[0]][0]
+            new_data["__$history"] = [game for game in player["__$history"] if "__$game_id" in game and game["__$game_id"] != args[0]]
             partida[player["__$name"]] = partida.pop("__$own")
             partida.pop("__$date")
             partida.pop("__$game_id")
