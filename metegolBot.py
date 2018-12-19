@@ -27,7 +27,8 @@ from metegolCommands import add_player,\
                             bardeandopuntocom,\
                             agregar_a_liga,\
                             start_torneo,\
-                            test_gif
+                            test_gif,\
+                            end_league
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -62,6 +63,7 @@ set_elo_handler = CommandHandler('setelo', set_elo, pass_args=True)
 help_admin_handler = CommandHandler('helpadmin', _help_admin)
 recalculate_handler = CommandHandler('recalculate', recalculate_elo)
 agregar_liga_handler = CommandHandler('agregarliga', agregar_a_liga, pass_args=True)
+terminar_liga_handler = CommandHandler('terminarliga', end_league)
 
 
 # Dispatchers
@@ -93,6 +95,7 @@ dispatcher.add_handler(set_elo_handler)
 dispatcher.add_handler(help_admin_handler)
 dispatcher.add_handler(recalculate_handler)
 dispatcher.add_handler(agregar_liga_handler)
+dispatcher.add_handler(terminar_liga_handler)
 
 
 unknown_handler = MessageHandler(Filters.command, unknown)

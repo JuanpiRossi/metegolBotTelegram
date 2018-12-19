@@ -160,23 +160,24 @@ def _submit_league_game(bot,update,league,player_a,player_b,goals_a,goals_b):
     bot.send_message(chat_id=update.message.chat_id, text='No se encontraron a los jugadores')
     return False
 
-def _validate_end_league(bot,update,league):
-    for partido in league["partidos"]:
-        if partido["games"] != league["config"]["cant_partidos"]:
-            return
+def _validate_end_league(bot,update,league,ignore_games=False):
+    if not ignore_games:
+        for partido in league["partidos"]:
+            if partido["games"] != league["config"]["cant_partidos"]:
+                return
     league["__$STATE"] = "END"
     update_doc(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"},league)
-    bot.send_message(chat_id=update.message.chat_id, text='Finalizo la liga: ' + str(league["config"]["nombre_liga"]))
+    bot.send_message(chat_id=league["__$grupo"], text='Finalizo la liga: ' + str(league["config"]["nombre_liga"]))
     date = datetime.datetime.today()
     for player in _calculta_league_position(league):
         player_data = find_one(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)})
         player_data["__$elo"]+=(player["POINTS"]*len(league["players"]))
         player_data["__$history"].append({"type":"liga","points":player["POINTS"],"name":league["config"]["nombre_liga"],"__$date":date,"players":len(league["players"])})
         update_doc(PLAYERS_COLLECTION,{"__$name":re.compile("^"+player["NAME"]+"$", re.IGNORECASE)},player_data)
-    _render_league_image(bot, update, league)
-    _render_league_games(bot, update, league)
+    _render_league_image(bot, update, league, overrideChatId=league["__$grupo"])
+    _render_league_games(bot, update, league, overrideChatId=league["__$grupo"])
 
-def _render_league_image(bot, update, league):
+def _render_league_image(bot, update, league, overrideChatId=None):
     html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Liga: {NOMBRELIGA}</h2><table><tr><td class='nameColumn header'>Jugador</td><td class='pointColumn header'>Partidos jugados</td><td class='pointColumn header'>Partidos ganados</td><td class='pointColumn header'>Goles a favor</td><td class='pointColumn header'>Puntos</td></tr>""".replace("{NOMBRELIGA}",league["config"]["nombre_liga"])
     players = _calculta_league_position(league)
     for player in players:
@@ -192,11 +193,14 @@ def _render_league_image(bot, update, league):
     }
     imgkit.from_string(html, file_name, options=options, config=config)
     file = open(file_name,'rb')
-    bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    if not overrideChatId:
+        bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    else:
+        bot.send_photo(chat_id=overrideChatId, photo=file, timeout=60)
     file.close()
     os.remove(file_name)
 
-def _render_league_games(bot, update, league):
+def _render_league_games(bot, update, league, overrideChatId=None):
     html ="""<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 400x;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}.header {background-color: #dddddd;}.nameColumn {width: 75px;}.pointColumn {width: 60px;}</style></head><body><h2>Partidos</h2><table><tr><td class='nameColumn header'>Jugador A</td><td class='nameColumn header'>Jugador B</td><td class='pointColumn header'>Goles A</td><td class='pointColumn header'>Goles B</td><td class='pointColumn header'>PJ</td></tr>"""
     for game in league["partidos"]:
         players = [key for key in list(game.keys()) if key != "games"]
@@ -212,7 +216,10 @@ def _render_league_games(bot, update, league):
     }
     imgkit.from_string(html, file_name, options=options, config=config)
     file = open(file_name,'rb')
-    bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    if not overrideChatId:
+        bot.send_photo(chat_id=update.message.chat_id, photo=file, timeout=60)
+    else:
+        bot.send_photo(chat_id=overrideChatId, photo=file, timeout=60)
     file.close()
     os.remove(file_name)
 

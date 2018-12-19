@@ -437,6 +437,7 @@ def link(bot,update,args):
         return
 
 def alive(bot, update):
+    print("Entro al print" + str(update.message.chat.id))
     bot.send_message(chat_id=update.message.chat_id, text="Estoy vivito en el grupo: " + str(update.message.chat.id))
 
 def test_gif(bot, update):
@@ -744,6 +745,24 @@ def agregar_a_liga(bot, update, args):
         logger.exception(ex)
         return
 
+def end_league(bot, update):
+    try:
+        logger = _get_logger()
+        if not _authenticate_admin(update):
+            bot.send_message(chat_id=update.message.chat_id, text="Requiere autorizacion de un administrador")
+            return
+        league = find_one(LEAGUES_COLLECTION,{"__$STATE":"PLAYING"})
+        if not league:
+            bot.send_message(chat_id=update.message.chat_id, text="No se està jugando ninguna liga")
+            return
+        _validate_end_league(bot,update,league,ignore_games=True)
+        bot.send_message(chat_id=update.message.chat_id, text="Liga terminada")
+    except Exception as ex:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
+
+
 def unknown(bot, update):
     try:
         logger = _get_logger()
@@ -751,8 +770,8 @@ def unknown(bot, update):
         if not _authenticate(update):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
             return
-        if str(update.message.from_user.id) != "528527409":
-            bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
+        # if str(update.message.from_user.id) != "528527409":
+        #     bot.send_message(chat_id=update.message.chat_id, text="Mi no entender")
     except Exception as ex:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
         logger.exception(ex)
