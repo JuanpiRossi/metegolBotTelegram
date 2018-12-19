@@ -2,7 +2,7 @@ import logging
 from botConfig import GROUPS,ADMIN
 import datetime
 from mongoConnection import startMongo,find_one,find,update_doc,insert_one,remove_by_query
-from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION
+from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION, WEEKLY, MULTIPLIER
 import imgkit
 import uuid
 import os
@@ -38,7 +38,7 @@ def _get_elo_constants(elo_player,constant_array=[]):
             return ele[1]
     return 1
 
-def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
+def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals, goal_multiplier=None):
     divisor = 400
     player_a_transformed = float(10**(float(elo_player_a)/divisor))
     player_b_transformed = float(10**(float(elo_player_b)/divisor))
@@ -51,7 +51,7 @@ def _calculate_elo(elo_player_a, elo_player_b, player_a_goals, player_b_goals):
     else:
         player_constant = _get_elo_constants(elo_player_b,25)
     
-    goals_multiplier = _get_goal_multiplier(player_a_goals,player_b_goals)
+    goals_multiplier = _get_goal_multiplier(player_a_goals,player_b_goals, multiplier_modifier=goal_multiplier)
 
     new_player_a_elo = int(round(elo_player_a + goals_multiplier*player_constant*float(float(int(player_a_goals>player_b_goals))-player_a_expect_score),0))
     new_player_b_elo = int(round(elo_player_b + goals_multiplier*player_constant*float(float(int(player_b_goals>player_a_goals))-player_b_expect_score),0))
@@ -69,17 +69,11 @@ def _bot_history(command,update,message):
         else:
             history.write(str(datetime.datetime.now()) + " - " + str(person) + " - " + str(command) + " - " + str(update) + "\n")
 
-def _get_goal_multiplier(goals_a,goals_b,multiplier_modifier=[]):
+def _get_goal_multiplier(goals_a,goals_b,multiplier_modifier=None):
     if not multiplier_modifier:
-        # 1, 2, 3, 4, 5, 6, 7, 8 (el primer elemento es el default, por si a alguno se le ocurre jugar por mas de 8 goles)
-        multiplier_modifier = [10,0.3,0.6,0.9,1.2,1.5,1.8,2.1,2.4]
-    max_goals = len(multiplier_modifier)-1
+        multiplier_modifier = MULTIPLIER
     goals_diference = abs(goals_a-goals_b)
-    
-    if goals_diference > max_goals:
-        return multiplier_modifier[0]
-    else:
-        return multiplier_modifier[goals_diference]
+    return multiplier_modifier*goals_diference
 
 def _get_average_stats(player,percent=True):
     count = 0
@@ -254,3 +248,99 @@ def _podio_checker(update,bot):
     #TODO
     pass
     
+def submit_simple(bot, update, args):
+    player_a = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
+    player_a_week = find_one(WEEKLY,{"$or":[{"__$name":re.compile("^"+args[0]+"$", re.IGNORECASE)},{"__$tel_name":args[0][1:]}]})
+    if not player_a:
+        bot.send_message(chat_id=update.message.chat_id, text="El primero jugador no existe")
+        return False
+    player_b = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)},{"__$tel_name":args[2][1:]}]})
+    player_b_week = find_one(WEEKLY,{"$or":[{"__$name":re.compile("^"+args[2]+"$", re.IGNORECASE)},{"__$tel_name":args[2][1:]}]})
+    if not player_b:
+        bot.send_message(chat_id=update.message.chat_id, text="El segundo jugador no existe")
+        return False
+    player_a_elo,player_b_elo = _calculate_elo(player_a["__$elo"], player_b["__$elo"], int(args[1]), int(args[3]))
+    player_a_elo_week,player_b_elo_week = _calculate_elo(player_a_week["__$elo"], player_b_week["__$elo"], int(args[1]), int(args[3]))
+    player_a_dif = ("+" if player_a_elo-player_a["__$elo"] > 0 else "-") + str(abs(player_a_elo-player_a["__$elo"]))
+    player_b_dif = ("+" if player_b_elo-player_b["__$elo"] > 0 else "-") + str(abs(player_b_elo-player_b["__$elo"]))
+    player_a["__$elo"] = player_a_elo
+    player_b["__$elo"] = player_b_elo
+    player_a_week["__$elo"] = player_a_elo_week
+    player_b_week["__$elo"] = player_b_elo_week
+    game_id = str(uuid.uuid4())
+    match_history_a = {"__$date":datetime.datetime.today(),"__$own":int(args[1]), "__$game_id":game_id}
+    match_history_a[str(player_b["__$name"])] = int(args[3])
+    match_history_b = {"__$date":datetime.datetime.today(),"__$own":int(args[3]), "__$game_id":game_id}
+    match_history_b[str(player_a["__$name"])] = int(args[1])
+    player_a["__$history"].append(match_history_a)
+    player_b["__$history"].append(match_history_b)
+    player_a_week["__$history"].append(match_history_a)
+    player_b_week["__$history"].append(match_history_b)
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_a["__$name"]},player_a)
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_b["__$name"]},player_b)
+    update_doc(WEEKLY,{"__$name":player_a["__$name"]},player_a_week)
+    update_doc(WEEKLY,{"__$name":player_b["__$name"]},player_b_week)
+    bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
+                                                        str(player_a["__$name"])+ " (" + player_a_dif +"): "+str(int(player_a_elo))+"\n"+
+                                                        str(player_b["__$name"])+ " (" + player_b_dif +"): "+str(int(player_b_elo))+"\n"+
+                                                        str(game_id))
+
+def submit_doble(bot, update, args):
+    players_team_a = args[0].split("&")
+    players_team_b = args[2].split("&")
+
+    player_a_1 = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+players_team_a[0]+"$", re.IGNORECASE)},{"__$tel_name":players_team_a[0][1:]}]})
+    if not player_a_1:
+        bot.send_message(chat_id=update.message.chat_id, text="Jugador "+str(players_team_a[0])+" no existe")
+        return False
+    player_a_2 = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+players_team_a[1]+"$", re.IGNORECASE)},{"__$tel_name":players_team_a[1][1:]}]})
+    if not player_a_2:
+        bot.send_message(chat_id=update.message.chat_id, text="Jugador "+str(players_team_a[1])+" no existe")
+        return False
+
+    player_b_1 = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+players_team_b[0]+"$", re.IGNORECASE)},{"__$tel_name":players_team_b[0][1:]}]})
+    if not player_b_1:
+        bot.send_message(chat_id=update.message.chat_id, text="Jugador "+str(players_team_b[0])+" no existe")
+        return False
+    player_b_2 = find_one(PLAYERS_COLLECTION,{"$or":[{"__$name":re.compile("^"+players_team_b[1]+"$", re.IGNORECASE)},{"__$tel_name":players_team_b[1][1:]}]})
+    if not player_b_2:
+        bot.send_message(chat_id=update.message.chat_id, text="Jugador "+str(players_team_b[1])+" no existe")
+        return False
+
+    team_a_elo = int((player_a_1["__$elo"] + player_a_2["__$elo"])/2)
+    team_b_elo = int((player_b_1["__$elo"] + player_b_2["__$elo"])/2)
+    
+    new_team_a_elo,new_team_b_elo = _calculate_elo(team_a_elo, team_b_elo, int(args[1]), int(args[3]))
+    team_a_dif = ("+" if new_team_a_elo-team_a_elo > 0 else "-") + str(abs(new_team_a_elo-team_a_elo))
+    team_b_dif = ("+" if new_team_b_elo-team_b_elo > 0 else "-") + str(abs(new_team_b_elo-team_b_elo))
+
+    player_a_1["__$elo"] = player_a_1["__$elo"] + int(new_team_a_elo-team_a_elo)
+    player_a_2["__$elo"] = player_a_2["__$elo"] + int(new_team_a_elo-team_a_elo)
+    player_b_1["__$elo"] = player_b_1["__$elo"] + int(new_team_b_elo-team_b_elo)
+    player_b_2["__$elo"] = player_b_2["__$elo"] + int(new_team_b_elo-team_b_elo)
+
+    game_id = str(uuid.uuid4())
+
+    match_history = {"__$date":datetime.datetime.today(), "__$game_id":game_id, "type":"double", "team1":players_team_a, "team2":players_team_b}
+    match_history[players_team_a[0]] = int(args[1])
+    match_history[players_team_a[1]] = int(args[1])
+    match_history[players_team_b[0]] = int(args[3])
+    match_history[players_team_b[1]] = int(args[3])
+
+    player_a_1["__$history"].append(match_history)
+    player_a_2["__$history"].append(match_history)
+    player_b_1["__$history"].append(match_history)
+    player_b_2["__$history"].append(match_history)
+
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_a_1["__$name"]},player_a_1)
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_a_2["__$name"]},player_a_2)
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_b_1["__$name"]},player_b_1)
+    update_doc(PLAYERS_COLLECTION,{"__$name":player_b_2["__$name"]},player_b_2)
+
+    bot.send_message(chat_id=update.message.chat_id, text="Partido cargado con exito\n"+
+                                                        str(player_a_1["__$name"])+ " (" + team_a_dif +"): "+str(int(player_a_1["__$elo"]))+"\n"+
+                                                        str(player_a_2["__$name"])+ " (" + team_a_dif +"): "+str(int(player_a_2["__$elo"]))+"\n"+
+                                                        str(player_b_1["__$name"])+ " (" + team_b_dif +"): "+str(int(player_b_1["__$elo"]))+"\n"+
+                                                        str(player_b_2["__$name"])+ " (" + team_b_dif +"): "+str(int(player_b_2["__$elo"]))+"\n"+
+                                                        str(game_id))
+
