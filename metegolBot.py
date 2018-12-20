@@ -28,7 +28,8 @@ from metegolCommands import add_player,\
                             agregar_a_liga,\
                             start_torneo,\
                             test_gif,\
-                            end_league
+                            end_league,\
+                            random_team
 
 updater = Updater(token=tokenConfig.BOT_TOKEN)
 dispatcher = updater.dispatcher
@@ -51,6 +52,7 @@ start_torneo_handler = CommandHandler('starttorneo', start_torneo)
 league_leaderboard_handler = CommandHandler('rankingliga', league_leaderboard)
 league_games_handler = CommandHandler('partidosliga', league_games)
 help_handler = CommandHandler('help', _help)
+random_handler = CommandHandler('random', random_team, pass_args=True)
 test_gif_handler = CommandHandler('testgif', test_gif)
 barding_handler = CommandHandler("bard",bardeandopuntocom, pass_args=True)
 common_message_handler = MessageHandler(Filters.text, common_message)
@@ -85,6 +87,7 @@ dispatcher.add_handler(league_leaderboard_handler)
 dispatcher.add_handler(start_league_handler)
 dispatcher.add_handler(start_torneo_handler)
 dispatcher.add_handler(help_handler)
+dispatcher.add_handler(random_handler)
 dispatcher.add_handler(common_message_handler)
 
 #Admin Dispatchers
