@@ -11,6 +11,7 @@ from utilities import _calculate_elo, _get_logger, _authenticate, _authenticate_
 from datetime import datetime
 from botConfig import WKHTMLTOIMAGE_PATH, PLAYERS_COLLECTION, LEAGUES_COLLECTION, WEEKLY
 import codecs
+import itertools
 
 def add_player(bot, update, args):
     try:
@@ -802,5 +803,25 @@ def start_torneo(bot,update):
         bot.send_message(chat_id=update.message.chat_id, text="Todavia no hago nada campeon")
     except:
         bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        logger.exception(ex)
+        return
+
+def random_team(bot, update, args):
+    try:
+        logger = _get_logger()
+        combinations = itertools.combinations(args, 2)
+        if len(args) != 4:
+            bot.send_message(chat_id=update.message.chat_id, text="Solo se permiten 4 jugadores")
+            return
+        combinations = list(combinations)[randint(0,5)]
+        
+        second_team = []
+        for player in args:
+            if player not in combinations:
+                second_team.append(player)
+        bot.send_message(chat_id=update.message.chat_id, text="{} & {}  VS  {} & {}".format(combinations[0],combinations[1],second_team[0],second_team[1]))
+    except:
+        bot.send_message(chat_id=update.message.chat_id, text=str(ex))
+        print(ex)
         logger.exception(ex)
         return
