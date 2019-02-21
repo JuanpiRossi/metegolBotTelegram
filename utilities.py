@@ -10,7 +10,7 @@ import re
 
 def _get_logger():
     logger = logging.getLogger('metegol')
-    fh = logging.FileHandler('spam.log')
+    fh = logging.FileHandler('/var/sources/spam.log')
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
