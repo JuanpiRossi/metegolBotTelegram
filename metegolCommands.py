@@ -518,7 +518,7 @@ def join_league(bot, update):
         if not player:
             bot.send_message(chat_id=update.message.chat_id, text='No se encontro jugador, recuerde que debe linkear su usuario a un jugador')
             return
-        if str(player["__$name"]) in liga["players"]:
+        if str(player["__$name"]).lower() in liga["players"]:
             bot.send_message(chat_id=update.message.chat_id, text='El jugador ya se encuentra en la liga')
             return
         liga["players"].append(player["__$name"].lower())
