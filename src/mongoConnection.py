@@ -1,7 +1,8 @@
 from pymongo import MongoClient, DESCENDING, ASCENDING
+import enviroment
 
 def startMongo():
-    client = MongoClient('mongodb://45.76.22.55:27017/',)
+    client = MongoClient(enviroment.MONGO,)
     return client.historico
 
 def find_one(collection,query):
