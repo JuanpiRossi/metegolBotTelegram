@@ -1,365 +1,1001 @@
-2019-08-29 16:53:39,675 - metegol - ERROR - 'NoneType' object is not subscriptable
+2019-09-10 15:50:31,610 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    if mongo.find_one(config.get("PLAYERS_COLLECTION"), {"id": user_data['id']}):
-TypeError: 'NoneType' object is not subscriptable
-2019-08-29 16:54:35,068 - metegol - ERROR - 'NoneType' object is not subscriptable
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 27, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-10 15:50:31,610 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    if mongo.find_one(config.get("PLAYERS_COLLECTION"), {"id": user_data['id']}):
-TypeError: 'NoneType' object is not subscriptable
-2019-08-29 16:55:21,768 - metegol - ERROR - 'NoneType' object is not subscriptable
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 27, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    user = mongo.find_one(config.get("PLAYERS_COLLECTION"), {"id": user_data['id']})
-TypeError: 'NoneType' object is not subscriptable
-2019-08-29 16:57:27,946 - metegol - ERROR - 'NoneType' object has no attribute 'id'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 9, in add_player
-    print(user_data.id)
-AttributeError: 'NoneType' object has no attribute 'id'
-2019-08-29 16:58:03,537 - metegol - ERROR - 'NoneType' object has no attribute 'id'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 9, in add_player
-    print(user_data.id)
-AttributeError: 'NoneType' object has no attribute 'id'
-2019-08-29 16:58:15,745 - metegol - ERROR - 'Message' object has no attribute 'id'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 9, in add_player
-    print(user_data.id)
-AttributeError: 'Message' object has no attribute 'id'
-2019-08-29 16:59:57,410 - metegol - ERROR - document must be an instance of dict, bson.son.SON, bson.raw_bson.RawBSONDocument, or a type that inherits from collections.MutableMapping
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 16, in add_player
-    mongo.insert_one(config.get("PLAYERS_COLLECTION"), user_data)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/mongoConnection.py", line 30, in insert_one
-    response = db[collection].insert_one(data)
-  File "/usr/local/lib/python3.7/site-packages/pymongo/collection.py", line 689, in insert_one
-    common.validate_is_document_type("document", document)
-  File "/usr/local/lib/python3.7/site-packages/pymongo/common.py", line 483, in validate_is_document_type
-    "collections.MutableMapping" % (option,))
-TypeError: document must be an instance of dict, bson.son.SON, bson.raw_bson.RawBSONDocument, or a type that inherits from collections.MutableMapping
-2019-08-29 17:00:26,205 - metegol - ERROR - 0
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    print(dict(user_data))
-  File "/usr/local/lib/python3.7/site-packages/telegram/base.py", line 39, in __getitem__
-    return self.__dict__[item]
-KeyError: 0
-2019-08-29 17:03:32,577 - metegol - ERROR - 0
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    "id": update.message.from_user.id,
-  File "/usr/local/lib/python3.7/site-packages/telegram/base.py", line 39, in __getitem__
-    return self.__dict__[item]
-KeyError: 0
-2019-08-29 17:03:32,577 - metegol - ERROR - 0
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 8, in add_player
-    "id": update.message.from_user.id,
-  File "/usr/local/lib/python3.7/site-packages/telegram/base.py", line 39, in __getitem__
-    return self.__dict__[item]
-KeyError: 0
-2019-08-29 17:10:04,833 - metegol - ERROR - cannot set options after executing query
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 23, in players_list
-    response = response + "\n" + users["username"]
-  File "/usr/local/lib/python3.7/site-packages/pymongo/cursor.py", line 579, in __getitem__
-    self.__check_okay_to_chain()
-  File "/usr/local/lib/python3.7/site-packages/pymongo/cursor.py", line 390, in __check_okay_to_chain
-    raise InvalidOperation("cannot set options after executing query")
-pymongo.errors.InvalidOperation: cannot set options after executing query
-2019-08-29 17:15:10,737 - metegol - ERROR - 'player'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in player_statics
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["player"]) for user in users] ]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in <listcomp>
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["player"]) for user in users] ]
-KeyError: 'player'
-2019-08-29 17:16:20,982 - metegol - ERROR - 'idas'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 7, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in player_statics
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in <listcomp>
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-KeyError: 'idas'
-2019-08-29 17:16:20,983 - metegol - ERROR - (<telegram.bot.Bot object at 0x10f891128>, <telegram.update.Update object at 0x10fcea0f0>)
-2019-08-29 17:17:34,332 - metegol - ERROR - 'idas'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 8, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in player_statics
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in <listcomp>
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-KeyError: 'idas'
-2019-08-29 17:17:34,333 - metegol - ERROR - {'id': 758840577, 'username': 'statsMetegolDevelopmentBot', 'first_name': 'statsMetegolDevelopmentBot'}
-2019-08-29 17:19:19,741 - metegol - ERROR - 'idas'
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in player_statics
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 30, in <listcomp>
-    keyboard = [ [InlineKeyboardButton(user["username"], callback_data=user["idas"]) for user in users] ]
-KeyError: 'idas'
-2019-08-29 17:19:19,742 - metegol - ERROR - {'id': 758840577, 'username': 'statsMetegolDevelopmentBot', 'first_name': 'statsMetegolDevelopmentBot'}
-2019-08-29 17:26:07,725 - metegol - ERROR - Can't parse inline keyboard button: field "callback_data" must be of type string
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 36, in player_statics
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
-  File "/usr/local/lib/python3.7/site-packages/telegram/message.py", line 455, in reply_text
-    return self.bot.send_message(self.chat_id, *args, **kwargs)
-  File "/usr/local/lib/python3.7/site-packages/telegram/bot.py", line 65, in decorator
-    result = func(self, *args, **kwargs)
-  File "/usr/local/lib/python3.7/site-packages/telegram/bot.py", line 90, in decorator
-    result = self._request.post(url, data, timeout=kwargs.get('timeout'))
-  File "/usr/local/lib/python3.7/site-packages/telegram/utils/request.py", line 309, in post
-    headers={'Content-Type': 'application/json'})
-  File "/usr/local/lib/python3.7/site-packages/telegram/utils/request.py", line 223, in _request_wrapper
-    raise BadRequest(message)
-telegram.error.BadRequest: Can't parse inline keyboard button: field "callback_data" must be of type string
-2019-08-29 17:26:07,733 - metegol - ERROR - {'id': 758840577, 'username': 'statsMetegolDevelopmentBot', 'first_name': 'statsMetegolDevelopmentBot'}
-2019-08-29 17:27:18,440 - metegol - ERROR - Can't parse inline keyboard button: field "callback_data" must be of type string
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 36, in player_statics
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
-  File "/usr/local/lib/python3.7/site-packages/telegram/message.py", line 455, in reply_text
-    return self.bot.send_message(self.chat_id, *args, **kwargs)
-  File "/usr/local/lib/python3.7/site-packages/telegram/bot.py", line 65, in decorator
-    result = func(self, *args, **kwargs)
-  File "/usr/local/lib/python3.7/site-packages/telegram/bot.py", line 90, in decorator
-    result = self._request.post(url, data, timeout=kwargs.get('timeout'))
-  File "/usr/local/lib/python3.7/site-packages/telegram/utils/request.py", line 309, in post
-    headers={'Content-Type': 'application/json'})
-  File "/usr/local/lib/python3.7/site-packages/telegram/utils/request.py", line 223, in _request_wrapper
-    raise BadRequest(message)
-telegram.error.BadRequest: Can't parse inline keyboard button: field "callback_data" must be of type string
-2019-08-29 17:27:18,442 - metegol - ERROR - {'id': 758840577, 'username': 'statsMetegolDevelopmentBot', 'first_name': 'statsMetegolDevelopmentBot'}
-2019-08-29 17:31:02,952 - metegol - ERROR - can only concatenate str (not "int") to str
-Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
-    func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in player_statics
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+user["id"]) for user in users]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in <listcomp>
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+user["id"]) for user in users]
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
 TypeError: can only concatenate str (not "int") to str
-2019-08-29 17:31:18,675 - metegol - ERROR - can only concatenate str (not "int") to str
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in player_statics
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+str(user["id"])) for user in users]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in <listcomp>
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+str(user["id"])) for user in users]
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
 TypeError: can only concatenate str (not "int") to str
-2019-08-29 17:31:18,675 - metegol - ERROR - can only concatenate str (not "int") to str
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in player_statics
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+str(user["id"])) for user in users]
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 31, in <listcomp>
-    [ InlineKeyboardButton(user["username"], callback_data= "player&"+str(user["id"])) for user in users]
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
 TypeError: can only concatenate str (not "int") to str
-2019-08-29 17:50:13,859 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:50:13,859 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
+TypeError: can only concatenate str (not "int") to str
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:50:13,859 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
+TypeError: can only concatenate str (not "int") to str
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:50:13,863 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
+TypeError: can only concatenate str (not "int") to str
+2019-09-10 15:52:59,704 - metegol - ERROR - can only concatenate str (not "int") to str
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 22, in inline_button_callback
+    _submit_score(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 162, in _submit_score
+    ": " + data["opponent"]["points"]
+TypeError: can only concatenate str (not "int") to str
+2019-09-10 15:58:57,009 - metegol - ERROR - string indices must be integers
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(bot, update, data[1:])
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:50:13,863 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 14, in inline_button_callback
+    _get_player_statics(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 53, in _get_player_statics
+    for game in player["games"]:
+TypeError: string indices must be integers
+2019-09-10 15:58:57,009 - metegol - ERROR - string indices must be integers
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 14, in inline_button_callback
+    _get_player_statics(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 53, in _get_player_statics
+    for game in player["games"]:
+TypeError: string indices must be integers
+2019-09-10 15:59:21,315 - metegol - ERROR - index 'games' cannot be applied to Cursor instances
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(bot, update, data[1:])
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:50:13,863 - metegol - ERROR - 'NoneType' object has no attribute 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 14, in inline_button_callback
+    _get_player_statics(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 53, in _get_player_statics
+    for game in user["games"]:
+  File "/usr/local/lib/python3.7/site-packages/pymongo/cursor.py", line 618, in __getitem__
+    "instances" % index)
+TypeError: index 'games' cannot be applied to Cursor instances
+2019-09-10 15:59:21,315 - metegol - ERROR - index 'games' cannot be applied to Cursor instances
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 41, in _get_player_statics
-    bot.send_message(chat_id=update.message.chat_id, text="Probanding" )
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 14, in inline_button_callback
+    _get_player_statics(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 53, in _get_player_statics
+    for game in user["games"]:
+  File "/usr/local/lib/python3.7/site-packages/pymongo/cursor.py", line 618, in __getitem__
+    "instances" % index)
+TypeError: index 'games' cannot be applied to Cursor instances
+2019-09-11 10:03:40,868 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(bot, update, data[1:])
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'NoneType' object has no attribute 'chat_id'
-2019-08-29 17:51:13,837 - metegol - ERROR - _get_player_statics() missing 1 required positional argument: 'player'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 56, in submit_dobles
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 10:03:40,868 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-2019-08-29 17:51:13,837 - metegol - ERROR - _get_player_statics() missing 1 required positional argument: 'player'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 56, in submit_dobles
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 10:03:40,868 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-2019-08-29 17:51:13,837 - metegol - ERROR - _get_player_statics() missing 1 required positional argument: 'player'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 56, in submit_dobles
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 10:03:40,868 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-2019-08-29 17:51:13,838 - metegol - ERROR - 'list' object has no attribute 'send_message'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 56, in submit_dobles
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 11:55:24,111 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(data[1:], update.callback_query.message.chat_id)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'list' object has no attribute 'send_message'
-2019-08-29 17:51:13,838 - metegol - ERROR - 'list' object has no attribute 'send_message'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(data[1:], update.callback_query.message.chat_id)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'list' object has no attribute 'send_message'
-2019-08-29 17:51:13,838 - metegol - ERROR - 'list' object has no attribute 'send_message'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-TypeError: _get_player_statics() missing 1 required positional argument: 'player'
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(data[1:], update.callback_query.message.chat_id)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 13, in func_wrapper
-    bot.send_message(chat_id=update.message.chat_id, text="Exception: " + str(ex))
-AttributeError: 'list' object has no attribute 'send_message'
-2019-08-29 17:51:46,981 - metegol - ERROR - _get_player_statics() missing 1 required positional argument: 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:55:55,176 - metegol - ERROR - submit() takes 2 positional arguments but 3 were given
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(data[1:], update.callback_query.message.chat_id)
-TypeError: _get_player_statics() missing 1 required positional argument: 'chat_id'
-2019-08-29 17:51:46,981 - metegol - ERROR - _get_player_statics() missing 1 required positional argument: 'chat_id'
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+TypeError: submit() takes 2 positional arguments but 3 were given
+2019-09-11 11:56:38,321 - metegol - ERROR - name 'config' is not defined
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 10, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 11, in inline_button_callback
-    _get_player_statics(data[1:], update.callback_query.message.chat_id)
-TypeError: _get_player_statics() missing 1 required positional argument: 'chat_id'
-2019-08-29 18:02:35,947 - metegol - ERROR - name 'user_data' is not defined
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 9, in submit
+    user = mongo.find_one(config.get("WEEKLY_DB"), collection, {"code": user["code"]})
+NameError: name 'config' is not defined
+2019-09-11 11:56:38,321 - metegol - ERROR - name 'config' is not defined
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 11, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 12, in inline_button_callback
-    _remove_player(bot, data[1:], update.callback_query.message.chat_id)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 55, in _remove_player
-    mongo.remove_by_query(config.get("PLAYERS_COLLECTION"), {"id": user_data['id']})
-NameError: name 'user_data' is not defined
-2019-08-29 18:02:35,947 - metegol - ERROR - name 'user_data' is not defined
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 9, in submit
+    user = mongo.find_one(config.get("WEEKLY_DB"), collection, {"code": user["code"]})
+NameError: name 'config' is not defined
+2019-09-11 11:56:38,321 - metegol - ERROR - name 'config' is not defined
 Traceback (most recent call last):
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 11, in func_wrapper
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 12, in inline_button_callback
-    _remove_player(bot, data[1:], update.callback_query.message.chat_id)
-  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/players.py", line 55, in _remove_player
-    mongo.remove_by_query(config.get("PLAYERS_COLLECTION"), {"id": user_data['id']})
-NameError: name 'user_data' is not defined
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 9, in submit
+    user = mongo.find_one(config.get("WEEKLY_DB"), collection, {"code": user["code"]})
+NameError: name 'config' is not defined
+2019-09-11 11:56:38,321 - metegol - ERROR - name 'config' is not defined
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 9, in submit
+    user = mongo.find_one(config.get("WEEKLY_DB"), collection, {"code": user["code"]})
+NameError: name 'config' is not defined
+2019-09-11 11:56:38,321 - metegol - ERROR - name 'config' is not defined
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 9, in submit
+    user = mongo.find_one(config.get("WEEKLY_DB"), collection, {"code": user["code"]})
+NameError: name 'config' is not defined
+2019-09-11 11:57:10,858 - metegol - ERROR - 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 13, in submit
+    "code": user["code"],
+TypeError: 'NoneType' object is not subscriptable
+2019-09-11 11:57:10,858 - metegol - ERROR - 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 13, in submit
+    "code": user["code"],
+TypeError: 'NoneType' object is not subscriptable
+2019-09-11 11:57:10,858 - metegol - ERROR - 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 13, in submit
+    "code": user["code"],
+TypeError: 'NoneType' object is not subscriptable
+2019-09-11 11:57:10,858 - metegol - ERROR - 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 13, in submit
+    "code": user["code"],
+TypeError: 'NoneType' object is not subscriptable
+2019-09-11 11:57:10,858 - metegol - ERROR - 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 194, in _submit_confirm
+    _send_elo_changes(bot, player, own_elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 218, in _send_elo_changes
+    weekly.submit(player, elo_offset, game)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 13, in submit
+    "code": user["code"],
+TypeError: 'NoneType' object is not subscriptable
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:01:14,008 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:13:08,486 - metegol - ERROR - name '_send_ranking' is not defined
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 29, in ranking
+    _send_ranking(bot, update.message.chat_id, config.get("WEEKLY_DB"))
+NameError: name '_send_ranking' is not defined
+2019-09-11 12:13:43,749 - metegol - ERROR - 'function' object has no attribute '_send_ranking'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 30, in ranking
+    ranking._send_ranking(bot, update.message.chat_id, config.get("WEEKLY_DB"))
+AttributeError: 'function' object has no attribute '_send_ranking'
+2019-09-11 12:16:26,025 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:16:26,025 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:16:26,025 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:17:06,538 - metegol - ERROR - [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 208, in _submit_confirm
+    if (int(data["own"]["points"]) == 7 and int(data["opponent"]["points"]) == 0) or (int(data["own"]["points"]) == 0 and int(data["opponent"]["points"]) == 7):
+FileNotFoundError: [Errno 2] No such file or directory: '/var/sources/metegolBotTelegram/8a0.gif'
+2019-09-11 12:27:40,894 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:28:18,499 - metegol - ERROR - division by zero
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 26, in submit
+    opponent_elo = sum([user["ELO"] for user in opponent]) / len(opponent)
+ZeroDivisionError: division by zero
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:32:46,014 - metegol - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/callbacks.py", line 28, in inline_button_callback
+    _submit_confirm(bot, data, update.callback_query.message.chat_id)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 205, in _submit_confirm
+    weekly.submit(data)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/weekly.py", line 25, in submit
+    "code": player["code"],
+TypeError: string indices must be integers
+2019-09-11 12:33:45,014 - metegol - ERROR - MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/games.py", line 28, in submit
+    uid = redis_set(json.dumps(data))
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 15, in redis_set
+    r.set(uid, value, ex=300)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 1519, in set
+    return self.execute_command('SET', *pieces)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 839, in execute_command
+    return self.parse_response(conn, command_name, **options)
+  File "/usr/local/lib/python3.7/site-packages/redis/client.py", line 853, in parse_response
+    response = connection.read_response()
+  File "/usr/local/lib/python3.7/site-packages/redis/connection.py", line 717, in read_response
+    raise response
+redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but it is currently not able to persist on disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+2019-09-11 12:47:54,292 - metegol - ERROR - help() missing 1 required positional argument: 'args'
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
+    func(*args, **kwargs)
+TypeError: help() missing 1 required positional argument: 'args'

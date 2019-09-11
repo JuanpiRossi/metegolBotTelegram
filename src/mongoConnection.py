@@ -1,17 +1,18 @@
+# -*- coding: utf-8; -*-
 from pymongo import MongoClient, DESCENDING, ASCENDING
 import enviroment
 
-def startMongo():
+def startMongo(db):
     client = MongoClient(enviroment.MONGO,)
-    return client.historico
+    return client[db]
 
-def find_one(collection,query):
-    db = startMongo()
+def find_one(db, collection,query):
+    db = startMongo(db)
     response = db[collection].find_one(query)
     return response
 
-def find(collection,query,sort="-__$elo"):
-    db = startMongo()
+def find(db, collection,query,sort="-ELO"):
+    db = startMongo(db)
     response = db[collection].find(query)
     if sort:
         if sort[:1] == '-':
@@ -20,17 +21,17 @@ def find(collection,query,sort="-__$elo"):
             response = response.sort(sort[1:], ASCENDING)
     return response
 
-def update_doc(collection,query,data):
-    db = startMongo()
+def update_doc(db, collection,query,data):
+    db = startMongo(db)
     response = db[collection].update(query,data,upsert=False)
     return response
 
-def insert_one(collection,data):
-    db = startMongo()
+def insert_one(db, collection,data):
+    db = startMongo(db)
     response = db[collection].insert_one(data)
     return response
 
-def remove_by_query(collection,query):
-    db = startMongo()
+def remove_by_query(db, collection,query):
+    db = startMongo(db)
     response = db[collection].remove(query)
     return response
