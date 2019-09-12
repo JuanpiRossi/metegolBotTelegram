@@ -39,7 +39,7 @@ def admin_command(func):
     def func_wrapper(*args, **kwargs):
         bot = args[0]
         update = args[1]
-        if update.message.from_user.id not in config.get("ADMIN"):
+        if str(update.message.from_user.id) not in config.get("ADMIN"):
             bot.send_message(chat_id=update.message.chat_id, text="No tenes acceso al comando")
         else:
             func(*args, **kwargs)
@@ -50,7 +50,7 @@ def group_validator(func):
     def func_wrapper(*args, **kwargs):
         bot = args[0]
         update = args[1]
-        if update.message.chat.id not in config.get("GROUPS"):
+        if str(update.message.chat.id) not in config.get("GROUPS"):
             bot.send_message(chat_id=update.message.chat_id, text="Grupo invalido")
         else:
             func(*args, **kwargs)
