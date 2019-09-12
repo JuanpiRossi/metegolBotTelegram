@@ -4,7 +4,7 @@ from enviroment import ENTORNO
 def get(key):
     data = {}
 
-    if ENTORNO == "desa":
+    if ENTORNO == "DESA":
         data["WKHTMLTOIMAGE_PATH"]='/usr/local/bin/wkhtmltoimage'
         data["PLAYERS_COLLECTION"]="jugadores_desa"
         data["LEAGUES_COLLECTION"]="ligas_desa"
@@ -27,9 +27,7 @@ def get(key):
         data["REDIS_PORT"]="6379"
         data["MAIN_DB"] = "historico"
         data["WEEKLY_DB"] = "weekly"
-        data["GROUPS"]=["-274219827","528527409"]
-
-    data["GROUPS"]=[]
+        data["GROUPS"]=["-245994808,-274219827","528527409"]
 
     data["ADMIN"]=[528527409]
     data["EXCEPT_MANAGER"]=528527409

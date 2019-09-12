@@ -61,7 +61,7 @@ def _get_player_statics(bot, player, chat_id):
     text = "Jugador: " + user["username"] + "\n"
     text += "Partidos jugados: " + str(count) + "\n"
     text += "Partidos ganados: " + str(win_count) + "\n"
-    text += "Goles: " + str(round((float(goals)/float(count)),1))
+    text += "Goles: " + "0" if count == 0 else str(round((float(goals)/float(count)),1))
     bot.send_message(chat_id=chat_id, text=text)
 
 

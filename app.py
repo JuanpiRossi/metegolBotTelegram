@@ -4,7 +4,6 @@ from telegram.ext import CommandHandler, Updater, CallbackQueryHandler, Filters,
 
 # CONFIG
 import enviroment
-import config
 
 # COMMAND FUNCTIONS
 from src import alive
@@ -14,11 +13,33 @@ from src import ranking
 from src import random
 from src import weekly
 
+# UTILS
+from src.utils import exception_handler, admin_command
+
 # CALLBACKS
 from src import callbacks
 
+# EXTRAS
+import schedule
+import time
+import threading
+
+
 updater = Updater(token=enviroment.BOT_TOKEN)
 dispatcher = updater.dispatcher
+
+
+def shutdown():
+    updater.stop()
+    updater.is_idle = False
+
+
+@admin_command
+@exception_handler
+def stop(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="Stopping....")
+    threading.Thread(target=shutdown).start()
+
 
 # Alive
 dispatcher.add_handler(CommandHandler('alive', alive.alive))
@@ -41,6 +62,7 @@ dispatcher.add_handler(CommandHandler('ranking_semanal', weekly.ranking))
 
 # Players - admin
 dispatcher.add_handler(CommandHandler('eliminarjugador', players.remove_player))
+dispatcher.add_handler(CommandHandler('stop', stop))
 
 # Utils
 dispatcher.add_handler(CommandHandler('bard', random.bard, pass_args=True))
@@ -51,10 +73,13 @@ dispatcher.add_handler(MessageHandler(Filters.command, random.unknown))
 
 print("starting")
 updater.start_polling()
-updater.idle()
 
 
+schedule.every().monday.do(weekly.show_weekly_ranking)
 
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 
 # OLD

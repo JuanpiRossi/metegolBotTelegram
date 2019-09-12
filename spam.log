@@ -999,3 +999,18 @@ Traceback (most recent call last):
   File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 30, in func_wrapper
     func(*args, **kwargs)
 TypeError: help() missing 1 required positional argument: 'args'
+2019-09-12 07:48:20,235 - metegol - ERROR - tuple index out of range
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 29, in func_wrapper
+    update = args[1]
+IndexError: tuple index out of range
+2019-09-12 07:50:26,806 - metegol - ERROR - tuple index out of range
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 28, in func_wrapper
+    bot = args[0]
+IndexError: tuple index out of range
+2019-09-12 07:50:38,768 - metegol - ERROR - tuple index out of range
+Traceback (most recent call last):
+  File "/Users/juanpirossi/Documents/personal-projects/metegolBotTelegram/src/utils.py", line 28, in func_wrapper
+    bot = args[0]
+IndexError: tuple index out of range

@@ -62,6 +62,7 @@ def _get_logger():
     fh = logging.FileHandler('spam.log')
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
+    logger.setLevel('INFO')
     logger.addHandler(fh)
 
     return logger

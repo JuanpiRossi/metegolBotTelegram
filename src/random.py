@@ -1,5 +1,5 @@
 # -*- coding: utf-8; -*-
-from src.utils import exception_handler
+from src.utils import exception_handler, admin_command
 import itertools
 from random import randint
 
@@ -46,3 +46,4 @@ def help(bot, update):
 /ranking_semanal - Ranking semanal!
 /random $p1 $p2 $p3 $p4 - Devuelve 2 equipos randoms con cada persona ingresada
 /help - Si no entendes un carajo""")
+

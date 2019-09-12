@@ -4,6 +4,8 @@ from src.utils import exception_handler, _calculate_elo, group_validator
 import datetime
 import config
 from src import ranking as rank
+import telegram
+import enviroment
 
 
 def submit(data):
@@ -65,3 +67,10 @@ def ranking(bot, update):
     collection = str(datetime.date.today().year) + "_" + \
                      str(datetime.date.today().isocalendar()[1])
     rank.send_ranking(bot, update.message.chat_id, config.get("WEEKLY_DB"), collection)
+
+
+def show_weekly_ranking():
+    bot = telegram.Bot(token=enviroment.BOT_TOKEN)
+    collection = str(datetime.date.today().year) + "_" + \
+                     str(datetime.date.today().isocalendar()[1])
+    rank.send_ranking(bot, config.get("MAIN_GROUP"), config.get("WEEKLY_DB"), collection)
