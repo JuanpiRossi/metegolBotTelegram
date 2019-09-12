@@ -27,7 +27,7 @@ def get(key):
         data["REDIS_PORT"]="6379"
         data["MAIN_DB"] = "historico"
         data["WEEKLY_DB"] = "weekly"
-        data["GROUPS"]=["-245994808,-274219827","528527409"]
+        data["GROUPS"]=["-245994808","-274219827","528527409"]
 
     data["ADMIN"]=[528527409]
     data["EXCEPT_MANAGER"]=528527409
