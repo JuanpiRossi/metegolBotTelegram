@@ -72,5 +72,5 @@ def ranking(bot, update):
 def show_weekly_ranking():
     bot = telegram.Bot(token=enviroment.BOT_TOKEN)
     collection = str(datetime.date.today().year) + "_" + \
-                     str(datetime.date.today().isocalendar()[1])
+                     str(int(datetime.date.today().isocalendar()[1]-1))
     rank.send_ranking(bot, config.get("MAIN_GROUP"), config.get("WEEKLY_DB"), collection)
